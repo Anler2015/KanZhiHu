@@ -10,6 +10,8 @@ import android.view.MenuItem;
 
 import com.gejiahui.kanzhihu.R;
 import com.gejiahui.kanzhihu.base.BaseActivity;
+import com.orhanobut.logger.Logger;
+
 
 public class MainActivity extends BaseActivity {
 
@@ -20,14 +22,13 @@ public class MainActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_none,R.anim.anim_mian_out);
     }
 
     @Override
