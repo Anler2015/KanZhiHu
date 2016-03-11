@@ -7,32 +7,33 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.MainActivity">
 
-    <android.support.design.widget.AppBarLayout
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </android.support.design.widget.AppBarLayout>
-
-
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <!-- the main content view -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+            <FrameLayout
+                android:id="@+id/frame_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></FrameLayout>
+        </LinearLayout>
 
         <!-- the navigetion view -->
-
-
-
+        <FrameLayout
+            android:id="@+id/frame_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></FrameLayout>
     </android.support.v4.widget.DrawerLayout>
 
 
