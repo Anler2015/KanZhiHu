@@ -9,9 +9,6 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.gejiahui.kanzhihu.model.Answer;
 import com.gejiahui.kanzhihu.model.Content;
-import com.orhanobut.logger.Logger;
-
-
 
 
 import java.io.UnsupportedEncodingException;
@@ -48,7 +45,7 @@ public class Request4Answers extends Request<ArrayList<Answer>> {
                 return Response.success(Answer.parse(res.getAnswers()),
                         HttpHeaderParser.parseCacheHeaders(response));
             }
-            else {  //error 不为空
+            else {  //error不为空说明出错
                 return Response.error(new ParseError());
             }
         } catch (UnsupportedEncodingException e) {

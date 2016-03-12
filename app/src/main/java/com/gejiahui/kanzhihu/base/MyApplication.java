@@ -8,7 +8,7 @@ import android.content.Context;
  * Created by gejiahui on 2016/3/10.
  */
 public class MyApplication extends Application {
-    private Context mContext;
+    private static Context mContext;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -16,7 +16,7 @@ public class MyApplication extends Application {
 
     }
 
-    public Context getApplicationContext(){
+    public static Context getContext(){
         return mContext;
     }
 }
