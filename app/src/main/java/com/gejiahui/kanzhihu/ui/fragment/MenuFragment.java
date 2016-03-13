@@ -1,5 +1,7 @@
 package com.gejiahui.kanzhihu.ui.fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +13,8 @@ import android.view.ViewGroup;
 import com.gejiahui.kanzhihu.R;
 import com.gejiahui.kanzhihu.adapter.MenuAdapter;
 import com.gejiahui.kanzhihu.base.BaseFragment;
+import com.gejiahui.kanzhihu.base.EasyRecyclerViewAdapter;
+import com.gejiahui.kanzhihu.ui.MainActivity;
 
 import java.util.ArrayList;
 
@@ -25,8 +29,17 @@ public class MenuFragment extends BaseFragment {
     RecyclerView mRecyclerView;
 
     private ArrayList<String> mDatas = new ArrayList<>();
+    private MainActivity mMainActivity;
     public MenuFragment() {
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mMainActivity = (MainActivity)context;
+    }
+
+
 
     @Nullable
     @Override
@@ -42,6 +55,11 @@ public class MenuFragment extends BaseFragment {
         initDatas();
         MenuAdapter adapter = new MenuAdapter(mDatas);
         mRecyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(new EasyRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClick(View view, int position, Object data) {
+            }
+        });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
@@ -49,6 +67,6 @@ public class MenuFragment extends BaseFragment {
         mDatas.add("昨日精华");
         mDatas.add("近日精华");
         mDatas.add("历史精华");
-        mDatas.add("用户精华");
+        mDatas.add("用户排名");
     }
 }

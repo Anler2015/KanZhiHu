@@ -17,6 +17,7 @@ import com.gejiahui.kanzhihu.adapter.AnswersListAdapter;
 import com.gejiahui.kanzhihu.base.BaseFragment;
 import com.gejiahui.kanzhihu.base.EasyRecyclerViewAdapter;
 import com.gejiahui.kanzhihu.model.Answer;
+import com.gejiahui.kanzhihu.model.Constants;
 import com.gejiahui.kanzhihu.net.Request4Answers;
 import com.gejiahui.kanzhihu.net.RequestManager;
 import com.gejiahui.kanzhihu.ui.AnswerActivity;
@@ -39,6 +40,8 @@ public class ContentFragment extends BaseFragment {
     private static String RECENT = "/recent";
     private static String ARCHIVE = "/archive";
 
+    private int type = 1;
+
 
     @Bind(R.id.swipe_refreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -47,7 +50,17 @@ public class ContentFragment extends BaseFragment {
     @Bind(R.id.rotateloading)
     RotateLoading rotateloading;
     public ContentFragment() {
+
     }
+
+    public static ContentFragment getInstance(int type) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("type",type);
+        ContentFragment fragment = new ContentFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
 
     Request4Answers request4Answers;
     @Nullable
@@ -62,7 +75,11 @@ public class ContentFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        request4Answers = new Request4Answers(getContentURL(),
+        if(getArguments() != null){
+            type = getArguments().getInt("type",0);
+        }
+
+        request4Answers = new Request4Answers(getContentURL(type),
                 new Response.Listener<ArrayList<Answer>>() {
                     @Override
                     public void onResponse(ArrayList<Answer> response) {
@@ -111,9 +128,21 @@ public class ContentFragment extends BaseFragment {
         return formatter.format(curDate);
     }
 
-    private  String getContentURL(){
-        Logger.d(GET_ANSWER_CONTENT_URL+getTodayTime()+YESTERDAY);
-        return GET_ANSWER_CONTENT_URL+getTodayTime()+YESTERDAY;
+    private  String getContentURL(int type){
+        switch (type){
+            case Constants.YESTERDAY_ANSWERS:
+                return GET_ANSWER_CONTENT_URL+getTodayTime()+YESTERDAY;
+
+            case Constants.RECENT_ANSWERS:
+                return GET_ANSWER_CONTENT_URL+getTodayTime()+RECENT;
+
+            case Constants.ARCHIVE_ANSWERS:
+                return GET_ANSWER_CONTENT_URL+getTodayTime()+ARCHIVE;
+
+            default:
+                return GET_ANSWER_CONTENT_URL+getTodayTime()+YESTERDAY;
+        }
+
     }
 
 }
