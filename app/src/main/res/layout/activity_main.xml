@@ -21,7 +21,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                android:elevation="8dp"/>
 
             <FrameLayout
                 android:id="@+id/frame_content"
@@ -32,8 +33,10 @@
         <!-- the navigetion view -->
         <FrameLayout
             android:id="@+id/frame_menu"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></FrameLayout>
+            android:layout_width="240dp"
+            android:layout_gravity="start"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"></FrameLayout>
     </android.support.v4.widget.DrawerLayout>
 
 

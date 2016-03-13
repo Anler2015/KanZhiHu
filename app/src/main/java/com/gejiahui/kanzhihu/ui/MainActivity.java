@@ -11,6 +11,7 @@ import com.gejiahui.kanzhihu.R;
 import com.gejiahui.kanzhihu.base.BaseActivity;
 
 import com.gejiahui.kanzhihu.ui.fragment.ContentFragment;
+import com.gejiahui.kanzhihu.ui.fragment.MenuFragment;
 
 
 public class MainActivity extends BaseActivity {
@@ -24,6 +25,7 @@ public class MainActivity extends BaseActivity {
 
 
         replaceFragment(R.id.frame_content, new ContentFragment());
+        replaceFragment(R.id.frame_menu, new MenuFragment());
 
     }
 

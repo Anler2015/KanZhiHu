@@ -43,6 +43,7 @@ public class AnswerActivity extends BaseActivity {
     private void webViewInit(){
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        webView.setVerticalScrollBarEnabled(false);
 
     }
 
