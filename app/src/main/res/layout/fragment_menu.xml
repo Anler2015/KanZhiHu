@@ -3,11 +3,37 @@
      android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="@color/colorPrimary">
+        <ImageView
+            android:id="@+id/img"
+            android:src="@drawable/ic_settings_white_24dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerInParent="true"/>
+        <TextView
+            android:id="@+id/today_time"
+            android:layout_below="@id/img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:gravity="center"/>
+
+    </RelativeLayout>
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/menu_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/other">
+        android:layout_marginTop="8dp"
+        android:layout_above="@+id/other"
+        android:layout_below="@id/header">
     </android.support.v7.widget.RecyclerView>
 
     <View

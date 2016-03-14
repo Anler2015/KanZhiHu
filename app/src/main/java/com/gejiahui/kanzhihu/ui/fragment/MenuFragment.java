@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.gejiahui.kanzhihu.R;
 import com.gejiahui.kanzhihu.adapter.MenuAdapter;
@@ -17,7 +18,9 @@ import com.gejiahui.kanzhihu.model.Constants;
 import com.gejiahui.kanzhihu.model.MenuItem;
 import com.gejiahui.kanzhihu.ui.MainActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -28,6 +31,8 @@ import butterknife.ButterKnife;
 public class MenuFragment extends BaseFragment {
     @Bind(R.id.menu_recycler_view)
     RecyclerView mRecyclerView;
+    @Bind(R.id.today_time)
+    TextView todayTime;
 
     private ArrayList<MenuItem> mDatas = new ArrayList<>();
     private MainActivity mMainActivity;
@@ -47,6 +52,7 @@ public class MenuFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu,container,false);
         ButterKnife.bind(this,view);
+        todayTime.setText(getTodayTime());
         return view;
     }
 
@@ -73,5 +79,11 @@ public class MenuFragment extends BaseFragment {
           mDatas.add(new MenuItem("近日精选", Constants.RECENT_ANSWERS,R.drawable.ic_settings_white_24dp));
           mDatas.add(new MenuItem("历史精选", Constants.ARCHIVE_ANSWERS,R.drawable.ic_settings_white_24dp));
 
+    }
+
+    private String getTodayTime(){
+        SimpleDateFormat formatter= new SimpleDateFormat("yyyy年MM月dd日");
+        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+        return formatter.format(curDate);
     }
 }
