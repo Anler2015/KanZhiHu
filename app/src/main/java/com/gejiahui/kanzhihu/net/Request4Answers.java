@@ -3,13 +3,11 @@ package com.gejiahui.kanzhihu.net;
 
 import com.alibaba.fastjson.JSON;
 import com.android.volley.NetworkResponse;
-import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.gejiahui.kanzhihu.model.Answer;
 import com.gejiahui.kanzhihu.model.Content;
-
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -46,11 +44,11 @@ public class Request4Answers extends Request<ArrayList<Answer>> {
                         HttpHeaderParser.parseCacheHeaders(response));
             }
             else {  //error不为空说明出错
-                return Response.error(new ParseError());
+                return Response.error(new ParseError4String(res.getError()));
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-            return Response.error(new ParseError(e));
+            return Response.error(new ParseError4String(e));
         }
 
     }

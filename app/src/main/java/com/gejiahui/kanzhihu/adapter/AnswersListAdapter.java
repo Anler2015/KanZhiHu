@@ -1,5 +1,8 @@
 package com.gejiahui.kanzhihu.adapter;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,11 +10,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.gejiahui.kanzhihu.CallBack.LoadResultCallBack;
 import com.gejiahui.kanzhihu.R;
 import com.gejiahui.kanzhihu.base.EasyRecyclerViewAdapter;
 import com.gejiahui.kanzhihu.model.Answer;
+import com.gejiahui.kanzhihu.model.Constants;
+import com.gejiahui.kanzhihu.net.ParseError4String;
+import com.gejiahui.kanzhihu.net.Request4Answers;
+import com.gejiahui.kanzhihu.net.RequestManager;
+import com.gejiahui.kanzhihu.ui.AnswerActivity;
+import com.orhanobut.logger.Logger;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -20,8 +32,17 @@ import butterknife.ButterKnife;
  * Created by gejiahui on 2016/3/12.
  */
 public class AnswersListAdapter extends EasyRecyclerViewAdapter<Answer> {
-    public AnswersListAdapter(List<Answer> mDatas) {
-        super(mDatas);
+    private static String GET_ANSWER_CONTENT_URL = "http://api.kanzhihu.com/getpostanswers/";
+    private static String YESTERDAY = "/yesterday";
+    private static String RECENT = "/recent";
+    private static String ARCHIVE = "/archive";
+
+    private Activity mActivity;
+    private Request4Answers request4Answers;
+    private LoadResultCallBack mLoadResultCallBack;
+    public AnswersListAdapter(Activity activity,LoadResultCallBack loadResultCallBack) {
+        mActivity = activity;
+        mLoadResultCallBack = loadResultCallBack;
     }
 
     @Override
@@ -32,11 +53,19 @@ public class AnswersListAdapter extends EasyRecyclerViewAdapter<Answer> {
     }
 
     @Override
-    public void onBind(RecyclerView.ViewHolder viewHolder, int RealPosition, Answer data) {
+    public void onBind(RecyclerView.ViewHolder viewHolder, int RealPosition, final Answer data) {
         ((AnswerViewHolder)viewHolder).title.setText(data.getTitle());
         ((AnswerViewHolder)viewHolder).body.setText(data.getSummary());
         ((AnswerViewHolder)viewHolder).vote.setText(data.getVote());
-
+        ((AnswerViewHolder)viewHolder).answerCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mActivity,AnswerActivity.class);
+                intent.putExtra("url",data.getAnswerUrl());
+                intent.putExtra("title",data.getTitle());
+                mActivity.startActivity(intent);
+            }
+        });
     }
 
     class AnswerViewHolder extends EasyRecyclerViewAdapter.EasyViewHolder{
@@ -48,9 +77,50 @@ public class AnswersListAdapter extends EasyRecyclerViewAdapter<Answer> {
         TextView  vote;
         @Bind(R.id.avatar)
         ImageView avatar;
+        @Bind(R.id.answer_card)
+        CardView answerCard;
         public AnswerViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+
+
+    public void loadDatas(String time,int type){
+        request4Answers = new Request4Answers(getContentURL(time,type),
+                new Response.Listener<ArrayList<Answer>>() {
+                    @Override
+                    public void onResponse(ArrayList<Answer> response) {
+                        mLoadResultCallBack.onSuccess(response);
+                    }
+                }, new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                mLoadResultCallBack.onFail(((ParseError4String)error).getErrorReason());
+
+            }
+        });
+        RequestManager.addQueue(request4Answers);
+    }
+
+
+    private  String getContentURL(String time,int type){
+        switch (type){
+            case Constants.YESTERDAY_ANSWERS:
+                return GET_ANSWER_CONTENT_URL+time+YESTERDAY;
+
+            case Constants.RECENT_ANSWERS:
+                Logger.d(GET_ANSWER_CONTENT_URL+time+RECENT);
+                return GET_ANSWER_CONTENT_URL+time+RECENT;
+
+            case Constants.ARCHIVE_ANSWERS:
+                Logger.d(GET_ANSWER_CONTENT_URL+time+ARCHIVE);
+                return GET_ANSWER_CONTENT_URL+time+ARCHIVE;
+
+            default:
+                return GET_ANSWER_CONTENT_URL+time+YESTERDAY;
+        }
+
     }
 }

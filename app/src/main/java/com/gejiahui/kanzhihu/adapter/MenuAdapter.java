@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.gejiahui.kanzhihu.R;
 import com.gejiahui.kanzhihu.base.EasyRecyclerViewAdapter;
+import com.gejiahui.kanzhihu.model.MenuItem;
 
 import java.util.List;
 
@@ -18,9 +19,9 @@ import butterknife.ButterKnife;
 /**
  * Created by gejiahui on 2016/3/13.
  */
-public class MenuAdapter extends EasyRecyclerViewAdapter<String> {
+public class MenuAdapter extends EasyRecyclerViewAdapter<MenuItem> {
 
-    public MenuAdapter(List<String> mDatas) {
+    public MenuAdapter(List<MenuItem> mDatas) {
         super(mDatas);
     }
 
@@ -32,9 +33,9 @@ public class MenuAdapter extends EasyRecyclerViewAdapter<String> {
     }
 
     @Override
-    public void onBind(RecyclerView.ViewHolder viewHolder, int RealPosition, String data) {
-        ((MenuViewHolder)viewHolder).title.setText(data);
-
+    public void onBind(RecyclerView.ViewHolder viewHolder, int RealPosition, MenuItem data) {
+        ((MenuViewHolder)viewHolder).title.setText(data.getTitle());
+        ((MenuViewHolder)viewHolder).img.setImageResource(data.getResId());
     }
 
     class MenuViewHolder extends EasyViewHolder{

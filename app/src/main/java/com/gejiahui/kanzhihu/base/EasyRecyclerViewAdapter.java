@@ -6,6 +6,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ public abstract class EasyRecyclerViewAdapter<T> extends RecyclerView.Adapter<Re
     private View mHeaderView;
     private View mFooterView;
 
-    private List<T> mDatas;
+    private List<T> mDatas = new ArrayList<>();
 
     private OnItemClickListener mItemClickListener;
 
@@ -45,8 +46,17 @@ public abstract class EasyRecyclerViewAdapter<T> extends RecyclerView.Adapter<Re
         notifyDataSetChanged();
     }
 
+    public void setDatas(List<T> mDatas){
+        this.mDatas = mDatas;
+        notifyDataSetChanged();
+    }
+
+
     public EasyRecyclerViewAdapter(List<T> mDatas) {
         this.mDatas = mDatas;
+    }
+
+    public EasyRecyclerViewAdapter() {
     }
 
     @Override
