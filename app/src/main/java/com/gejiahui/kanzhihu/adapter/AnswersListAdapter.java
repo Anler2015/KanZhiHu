@@ -62,7 +62,9 @@ public class AnswersListAdapter extends EasyRecyclerViewAdapter<Answer> {
             public void onClick(View v) {
                 Intent intent = new Intent(mActivity,AnswerActivity.class);
                 intent.putExtra("url",data.getAnswerUrl());
+                intent.putExtra("userurl",data.getUserUrl());
                 intent.putExtra("title",data.getTitle());
+                intent.putExtra("vote",data.getVote());
                 mActivity.startActivity(intent);
             }
         });

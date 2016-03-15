@@ -8,16 +8,55 @@ import java.util.ArrayList;
  * Created by gejiahui on 2016/3/15.
  */
 public class UserDetail {
-
+    private String error;
     private String name;
     private String avatar;
     private String signature;
     private String description;
-    private JSONArray detail;
-    private JSONArray  star;
+    private Detail detail;
+    private Star  star;
     private JSONArray trend;
     private JSONArray topanswers;
 
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public class Detail{
         //提问数
@@ -86,9 +125,25 @@ public class UserDetail {
         private String count200;
         //   赞同≥100答案数
         private String count100;
-        
+
     }
 
+    public class Star{
+        //回答数+专栏文章数排名
+        private String answerrank;
+        //赞同数排名
+        private String agreerank;
+        //平均赞同排名
+        private String ratiorank;
+        //被关注数排名
+        private String followerrank;
+        //收藏数排名
+        private String favrank;
+        //赞同超1000的回答数排名
+        private String count1000rank;
+        //赞同超100的回答数排名
+        private String count100rank;
 
+    }
 
 }

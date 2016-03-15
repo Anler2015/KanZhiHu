@@ -8,9 +8,14 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.gejiahui.kanzhihu.R;
 import com.gejiahui.kanzhihu.base.BaseActivity;
+import com.gejiahui.kanzhihu.model.UserDetail;
+import com.gejiahui.kanzhihu.net.Request4UserDetail;
+import com.gejiahui.kanzhihu.net.RequestManager;
 import com.orhanobut.logger.Logger;
 
 import org.jsoup.Jsoup;
@@ -33,9 +38,17 @@ public class AnswerActivity extends BaseActivity {
     WebView webView;
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
+    @Bind(R.id.user_name)
+    TextView userName;
+    @Bind(R.id.user_signature)
+    TextView userSignature;
+    @Bind(R.id.vote)
+    TextView voteNumber;
 
     private String answerURL;
+    private String userURL;
     private StringRequest htmlRequest;
+    private Request4UserDetail request4UserDetail;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,7 +58,10 @@ public class AnswerActivity extends BaseActivity {
         setSupportActionBar(mToolbar);
         answerURL = getIntent().getStringExtra("url");
         title.setText(getIntent().getStringExtra("title"));
+        userURL = getIntent().getStringExtra("userurl");
+        getUserInfo();
         Logger.d(""+answerURL);
+        Logger.d(""+userURL);
         webViewInit();
 //        htmlRequest = new StringRequest(answerURL, new Response.Listener<String>() {
 //            @Override
@@ -105,7 +121,7 @@ public class AnswerActivity extends BaseActivity {
         Document doc = null;
         try {
             doc = Jsoup.connect(url).get();
-      //      Logger.d(doc.toString());
+            Logger.d(doc.toString());
         }catch (IOException e){
 
         }
@@ -116,7 +132,8 @@ public class AnswerActivity extends BaseActivity {
             Element answerBody = content.get(2);
             return  imgReplace(answerBody.toString());
 
-        }else if(content.size()> 3){
+        }else
+        if(content.size()> 3){
 
             Element answerBody = content.get(3);
             return  imgReplace(answerBody.toString());
@@ -149,6 +166,23 @@ public class AnswerActivity extends BaseActivity {
             imgs.get(i).attr("src",imgUrl);
         }
         return doc.toString();
+    }
+
+    private void getUserInfo(){
+        request4UserDetail = new Request4UserDetail(userURL, new Response.Listener<UserDetail>() {
+            @Override
+            public void onResponse(UserDetail response) {
+                userName.setText(response.getName());
+                userSignature.setText(response.getSignature());
+                voteNumber.setText(getIntent().getStringExtra("vote"));
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        RequestManager.addQueue(request4UserDetail);
     }
 
     class WebLoadingThread extends AsyncTask<String,String,String>{

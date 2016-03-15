@@ -32,8 +32,8 @@ public class Answer {
 
     private static String QUESTION_URL_PREFIX = "http://www.zhihu.com/question/";
     private static String ANSWER_URL_POSTFIX = "/answer/";
-    private static String USER_URL_PREFIX = "http://www.zhihu.com/people/";
-
+   // private static String USER_URL_PREFIX = "http://www.zhihu.com/people/";
+    private static String USER_URL_PREFIX = "http://api.kanzhihu.com/userdetail2/";
 
     private String title;
     private String datetime;
