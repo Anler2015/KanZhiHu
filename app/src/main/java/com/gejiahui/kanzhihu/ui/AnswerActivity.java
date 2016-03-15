@@ -3,6 +3,7 @@ package com.gejiahui.kanzhihu.ui;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.TextView;
@@ -30,6 +31,8 @@ public class AnswerActivity extends BaseActivity {
     TextView title;
     @Bind(R.id.web_view)
     WebView webView;
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
 
     private String answerURL;
     private StringRequest htmlRequest;
@@ -39,6 +42,7 @@ public class AnswerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer_web);
         ButterKnife.bind(this);
+        setSupportActionBar(mToolbar);
         answerURL = getIntent().getStringExtra("url");
         title.setText(getIntent().getStringExtra("title"));
         Logger.d(""+answerURL);
@@ -101,17 +105,22 @@ public class AnswerActivity extends BaseActivity {
         Document doc = null;
         try {
             doc = Jsoup.connect(url).get();
+      //      Logger.d(doc.toString());
         }catch (IOException e){
 
         }
-       // doc = Jsoup.parse(html);
-
         Elements content = doc.getElementsByClass("zm-editable-content");
         Logger.d(""+content.size());
-        if(content.size()>3){
-            Element answerBody = content.get(3);
+        if(content.size()== 3){
 
-            return  answerBody.toString();
+            Element answerBody = content.get(2);
+            return  imgReplace(answerBody.toString());
+
+        }else if(content.size()> 3){
+
+            Element answerBody = content.get(3);
+            return  imgReplace(answerBody.toString());
+
         }
         else{
             return "<div class=\"answer-status\" id=\"answer-status\">\n" +
@@ -126,6 +135,22 @@ public class AnswerActivity extends BaseActivity {
         }
     }
 
+
+    /**
+     * 将html中从默认的地址换成震震的imgUrl
+     * @param html
+     * @return
+     */
+    private String imgReplace(String html){
+        Document  doc = Jsoup.parse(html);
+        Elements imgs = doc.getElementsByTag("img");
+        for(int i = 0; i < imgs.size(); i++){
+            String imgUrl = imgs.get(i).attr("data-actualsrc");
+            imgs.get(i).attr("src",imgUrl);
+        }
+        return doc.toString();
+    }
+
     class WebLoadingThread extends AsyncTask<String,String,String>{
         @Override
         protected String doInBackground(String... params) {
@@ -137,6 +162,7 @@ public class AnswerActivity extends BaseActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             webView.loadDataWithBaseURL(null, s, "text/html", "utf-8", null);
+        //    webView.loadUrl("http://www.zhihu.com/question/39812585/answer/89714169");
         }
     }
 }

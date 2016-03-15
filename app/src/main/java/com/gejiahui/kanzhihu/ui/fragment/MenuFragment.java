@@ -75,9 +75,9 @@ public class MenuFragment extends BaseFragment {
     }
 
     private void initDatas(){
-          mDatas.add(new MenuItem("昨日精选", Constants.YESTERDAY_ANSWERS,R.drawable.ic_settings_white_24dp));
-          mDatas.add(new MenuItem("近日精选", Constants.RECENT_ANSWERS,R.drawable.ic_settings_white_24dp));
-          mDatas.add(new MenuItem("历史精选", Constants.ARCHIVE_ANSWERS,R.drawable.ic_settings_white_24dp));
+          mDatas.add(new MenuItem("昨日精选", Constants.YESTERDAY_ANSWERS,R.drawable.ic_loyalty_black_24dp));
+          mDatas.add(new MenuItem("近日精选", Constants.RECENT_ANSWERS,R.drawable.ic_loyalty_black_24dp));
+          mDatas.add(new MenuItem("历史精选", Constants.ARCHIVE_ANSWERS,R.drawable.ic_loyalty_black_24dp));
 
     }
 
