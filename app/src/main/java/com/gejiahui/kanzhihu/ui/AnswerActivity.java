@@ -1,5 +1,6 @@
 package com.gejiahui.kanzhihu.ui;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,7 +11,11 @@ import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.gejiahui.kanzhihu.R;
 import com.gejiahui.kanzhihu.base.BaseActivity;
 import com.gejiahui.kanzhihu.model.UserDetail;
@@ -44,10 +49,11 @@ public class AnswerActivity extends BaseActivity {
     TextView userSignature;
     @Bind(R.id.vote)
     TextView voteNumber;
+    @Bind(R.id.ans_avatar)
+    SimpleDraweeView avatar;
 
     private String answerURL;
     private String userURL;
-    private StringRequest htmlRequest;
     private Request4UserDetail request4UserDetail;
 
     @Override
@@ -55,6 +61,7 @@ public class AnswerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer_web);
         ButterKnife.bind(this);
+
         setSupportActionBar(mToolbar);
         answerURL = getIntent().getStringExtra("url");
         title.setText(getIntent().getStringExtra("title"));
@@ -63,19 +70,6 @@ public class AnswerActivity extends BaseActivity {
         Logger.d(""+answerURL);
         Logger.d(""+userURL);
         webViewInit();
-//        htmlRequest = new StringRequest(answerURL, new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-//                Logger.d(response);
-//                webView.loadDataWithBaseURL(null, getHtml(getAnswerBody(response)), "text/html", "utf-8", null);
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//
-//            }
-//        });
- //       RequestManager.addQueue(htmlRequest);
         new WebLoadingThread().execute();
 
     }
@@ -121,35 +115,33 @@ public class AnswerActivity extends BaseActivity {
         Document doc = null;
         try {
             doc = Jsoup.connect(url).get();
-            Logger.d(doc.toString());
+
         }catch (IOException e){
 
         }
         Elements content = doc.getElementsByClass("zm-editable-content");
-        Logger.d(""+content.size());
-        if(content.size()== 3){
+        Logger.d(content.toString());
+        for(int i = 0 ; i < content.size();i++){
+            Element element = content.get(i);
+            Elements ans = element.getElementsByClass("clearfix");
+            if(ans.size()!=0){
+//                Logger.d(element.getElementsByClass("clearfix").get(0)+"");
+                return imgReplace(ans.first().toString());
+            }
 
-            Element answerBody = content.get(2);
-            return  imgReplace(answerBody.toString());
-
-        }else
-        if(content.size()> 3){
-
-            Element answerBody = content.get(3);
-            return  imgReplace(answerBody.toString());
 
         }
-        else{
-            return "<div class=\"answer-status\" id=\"answer-status\">\n" +
-                    "<a class=\"zg-right\" data-tip=\"s$b$为什么回答会被建议修改？\" href=\"/question/24752645\"><i class=\"zg-icon zg-icon-question-mark\"></i></a>\n" +
-                    "<p>回答等待修改（已修改・评估中）：<a href=\"/question/20258015\">不规范转载</a></p>\n" +
-                    "<p class=\"note\">\n" +
-                    "\n" +
-                    "作者修改内容通过后，回答会重新显示。如果一周内未得到有效修改，回答会自动折叠。\n" +
-                    "\n" +
-                    "</p>\n" +
-                    "</div>";
-        }
+
+        return "<div class=\"answer-status\" id=\"answer-status\">\n" +
+                "<a class=\"zg-right\" data-tip=\"s$b$为什么回答会被建议修改？\" href=\"/question/24752645\"><i class=\"zg-icon zg-icon-question-mark\"></i></a>\n" +
+                "<p>回答等待修改（已修改・评估中）：<a href=\"/question/20258015\">不规范转载</a></p>\n" +
+                "<p class=\"note\">\n" +
+                "\n" +
+                "作者修改内容通过后，回答会重新显示。如果一周内未得到有效修改，回答会自动折叠。\n" +
+                "\n" +
+                "</p>\n" +
+                "</div>";
+
     }
 
 
@@ -174,7 +166,16 @@ public class AnswerActivity extends BaseActivity {
             public void onResponse(UserDetail response) {
                 userName.setText(response.getName());
                 userSignature.setText(response.getSignature());
+            //    avatar.setImageURI(Uri.parse(response.getAvatar()));
                 voteNumber.setText(getIntent().getStringExtra("vote"));
+
+
+                GenericDraweeHierarchy hierarchy = new GenericDraweeHierarchyBuilder(getResources())
+                        .setFadeDuration(400)
+                        .build();
+                DraweeController controller = Fresco.newDraweeControllerBuilder().setUri(Uri.parse(response.getAvatar())).setOldController(avatar.getController()).build();
+                controller.setHierarchy(hierarchy);
+                avatar.setController(controller);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -189,14 +190,12 @@ public class AnswerActivity extends BaseActivity {
         @Override
         protected String doInBackground(String... params) {
             return getHtml( getAnswerBody(answerURL));
-        //   return getHtml(getAnswerBody("http://www.zhihu.com/question/22850305/answer/62942967"));
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             webView.loadDataWithBaseURL(null, s, "text/html", "utf-8", null);
-        //    webView.loadUrl("http://www.zhihu.com/question/39812585/answer/89714169");
         }
     }
 }

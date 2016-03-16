@@ -2,16 +2,17 @@ package com.gejiahui.kanzhihu.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.gejiahui.kanzhihu.CallBack.LoadResultCallBack;
 import com.gejiahui.kanzhihu.R;
 import com.gejiahui.kanzhihu.base.EasyRecyclerViewAdapter;
@@ -36,7 +37,6 @@ public class AnswersListAdapter extends EasyRecyclerViewAdapter<Answer> {
     private static String YESTERDAY = "/yesterday";
     private static String RECENT = "/recent";
     private static String ARCHIVE = "/archive";
-
     private Activity mActivity;
     private Request4Answers request4Answers;
     private LoadResultCallBack mLoadResultCallBack;
@@ -48,7 +48,6 @@ public class AnswersListAdapter extends EasyRecyclerViewAdapter<Answer> {
     @Override
     public RecyclerView.ViewHolder onCreate(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_item,parent,false);
-
         return new AnswerViewHolder(view);
     }
 
@@ -57,6 +56,8 @@ public class AnswersListAdapter extends EasyRecyclerViewAdapter<Answer> {
         ((AnswerViewHolder)viewHolder).title.setText(data.getTitle());
         ((AnswerViewHolder)viewHolder).body.setText(data.getSummary());
         ((AnswerViewHolder)viewHolder).vote.setText(data.getVote());
+         Logger.d(data.getAvatarUrl());
+        ((AnswerViewHolder)viewHolder).avatar.setImageURI(Uri.parse(data.getAvatarUrl()));
         ((AnswerViewHolder)viewHolder).answerCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,12 +79,14 @@ public class AnswersListAdapter extends EasyRecyclerViewAdapter<Answer> {
         @Bind(R.id.vote)
         TextView  vote;
         @Bind(R.id.avatar)
-        ImageView avatar;
+        SimpleDraweeView avatar;
         @Bind(R.id.answer_card)
         CardView answerCard;
+
         public AnswerViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
         }
     }
 

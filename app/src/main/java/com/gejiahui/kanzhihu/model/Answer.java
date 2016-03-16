@@ -6,10 +6,8 @@ package com.gejiahui.kanzhihu.model;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by gejiahui on 2016/3/11.

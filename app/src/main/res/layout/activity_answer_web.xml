@@ -2,9 +2,9 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -47,33 +47,32 @@
                 android:textStyle="bold" />
         </android.support.v7.widget.CardView>
 
-        <android.support.v7.widget.CardView
+        <RelativeLayout
             android:id="@+id/user_info"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="72dp"
             android:layout_below="@id/title_layout"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
             android:layout_marginTop="4dp"
             android:clickable="true"
             android:elevation="5dp"
+            android:background="@color/white"
             android:foreground="?android:attr/selectableItemBackground"
-            card:cardBackgroundColor="@color/white"
-            card:cardCornerRadius="3dp"
-            card:cardPreventCornerOverlap="true"
-            card:cardUseCompatPadding="true"
-            card:contentPadding="8dp">
+            >
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                <ImageView
-                    android:id="@+id/avatar"
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/ans_avatar"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_centerVertical="true"
                     android:layout_alignParentLeft="true"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:layout_marginLeft="16dp"
+                    fresco:placeholderImage="@mipmap/ic_launcher"
+                    />
 
                 <TextView
                     android:id="@+id/user_name"
@@ -81,69 +80,87 @@
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:textSize="16sp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginLeft="8dp"
-                    android:layout_toRightOf="@id/avatar"
-                    android:text="name" />
-
-                <TextView
-                    android:id="@+id/user_signature"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:textSize="14sp"
-                    android:layout_toRightOf="@id/avatar"
-                    android:layout_below="@id/user_name"
-                    android:singleLine="true"
-                    android:text="qianming" />
+                    android:layout_toRightOf="@id/ans_avatar"
+                     />
                 <android.support.v7.widget.CardView
+                    android:id="@+id/vote_card"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginRight="8dp"
                     android:clickable="true"
-                    android:elevation="12dp"
                     android:foreground="?android:attr/selectableItemBackground"
                     card:cardBackgroundColor="@color/white"
                     card:cardCornerRadius="3dp"
+                    card:cardElevation="3dp"
                     card:cardPreventCornerOverlap="true"
                     card:cardUseCompatPadding="true">
                     <TextView
                         android:id="@+id/vote"
-                        android:text="2116"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:background="@color/blue_light"/>
 
                 </android.support.v7.widget.CardView>
-
-
+                <TextView
+                    android:id="@+id/user_signature"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:textSize="12sp"
+                    android:layout_toRightOf="@id/ans_avatar"
+                    android:layout_below="@id/user_name"
+                    android:layout_toLeftOf="@id/vote_card"
+                    android:singleLine="true"
+                     />
 
             </RelativeLayout>
-        </android.support.v7.widget.CardView>
+        </RelativeLayout>
 
-        <android.support.v7.widget.CardView
+        <!--<android.support.v7.widget.CardView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_below="@id/user_info"-->
+            <!--android:layout_marginLeft="8dp"-->
+            <!--android:layout_marginRight="8dp"-->
+            <!--android:layout_marginTop="-6dp"-->
+            <!--android:clickable="true"-->
+            <!--android:elevation="5dp"-->
+            <!--android:foreground="?android:attr/selectableItemBackground"-->
+            <!--card:cardBackgroundColor="@color/white"-->
+            <!--card:cardCornerRadius="3dp"-->
+            <!--card:cardPreventCornerOverlap="true"-->
+            <!--card:cardUseCompatPadding="true"-->
+            <!--card:contentPadding="8dp">-->
+
+            <!--<WebView-->
+                <!--android:id="@+id/web_view"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"></WebView>-->
+        <!--</android.support.v7.widget.CardView>-->
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/user_info"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="-6dp"
-            android:clickable="true"
-            android:elevation="5dp"
-            android:foreground="?android:attr/selectableItemBackground"
-            card:cardBackgroundColor="@color/white"
-            card:cardCornerRadius="3dp"
-            card:cardPreventCornerOverlap="true"
-            card:cardUseCompatPadding="true"
-            card:contentPadding="8dp">
+            android:layout_marginTop="2dp"
+            android:elevation="5dp">
 
             <WebView
                 android:id="@+id/web_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"></WebView>
-        </android.support.v7.widget.CardView>
+                android:layout_height="match_parent"
+
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="4dp"></WebView>
+        </FrameLayout>
+
     </RelativeLayout>
 
 </ScrollView>
