@@ -23,6 +23,7 @@ import com.gejiahui.kanzhihu.model.UserDetail;
 import com.gejiahui.kanzhihu.net.Request4UserDetail;
 import com.gejiahui.kanzhihu.net.RequestManager;
 import com.orhanobut.logger.Logger;
+import com.victor.loading.rotate.RotateLoading;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -52,6 +53,8 @@ public class AnswerActivity extends BaseActivity {
     TextView voteNumber;
     @Bind(R.id.ans_avatar)
     SimpleDraweeView avatar;
+    @Bind(R.id.rotateloading)
+    RotateLoading rotateLoading;
 
     private String answerURL;
     private String userURL;
@@ -62,7 +65,7 @@ public class AnswerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer_web);
         ButterKnife.bind(this);
-
+        rotateLoading.start();
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationIcon(R.drawable.ic_settings_black_24dp);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -226,6 +229,7 @@ public class AnswerActivity extends BaseActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             webView.loadDataWithBaseURL(null, s, "text/html", "utf-8", null);
+            rotateLoading.stop();
         }
     }
 }

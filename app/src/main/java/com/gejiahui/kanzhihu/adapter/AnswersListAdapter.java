@@ -103,7 +103,10 @@ public class AnswersListAdapter extends EasyRecyclerViewAdapter<Answer> {
                 }, new Response.ErrorListener(){
             @Override
             public void onErrorResponse(VolleyError error) {
-                mLoadResultCallBack.onFail(((ParseError4String)error).getErrorReason());
+                if(error instanceof ParseError4String){
+                    mLoadResultCallBack.onFail(((ParseError4String)error).getErrorReason());
+                }
+
 
             }
         });

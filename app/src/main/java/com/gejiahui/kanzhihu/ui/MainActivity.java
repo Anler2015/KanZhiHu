@@ -12,6 +12,7 @@ import com.gejiahui.kanzhihu.R;
 import com.gejiahui.kanzhihu.base.BaseActivity;
 import com.gejiahui.kanzhihu.ui.fragment.ContentFragment;
 import com.gejiahui.kanzhihu.ui.fragment.MenuFragment;
+import com.orhanobut.logger.Logger;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -34,7 +35,7 @@ public class MainActivity extends BaseActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,toolbar, R.string.app_name, R.string.app_name);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
-
+        Logger.d("###############");
         toolbar.setTitle(getResources().getString(R.string.yesterday));
         replaceFragment(R.id.frame_content, new ContentFragment());
         replaceFragment(R.id.frame_menu, new MenuFragment());

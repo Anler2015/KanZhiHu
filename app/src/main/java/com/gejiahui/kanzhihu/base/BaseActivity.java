@@ -9,6 +9,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.gejiahui.kanzhihu.R;
+import com.orhanobut.logger.LogLevel;
+import com.orhanobut.logger.Logger;
 
 /**
  * Created by gejiahui on 2016/3/10.
