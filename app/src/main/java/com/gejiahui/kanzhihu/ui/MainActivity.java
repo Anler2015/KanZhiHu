@@ -33,9 +33,9 @@ public class MainActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,toolbar, R.string.app_name, R.string.app_name);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
 
-        getSupportActionBar().setTitle("ddddddddddddddddddd");
+        toolbar.setTitle(getResources().getString(R.string.yesterday));
         replaceFragment(R.id.frame_content, new ContentFragment());
         replaceFragment(R.id.frame_menu, new MenuFragment());
 

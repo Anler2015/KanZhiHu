@@ -21,7 +21,8 @@
         </activity>
         <activity
             android:name=".ui.AnswerActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".ui.MainActivity">
         </activity>
     </application>
 

@@ -67,7 +67,7 @@ public class MenuFragment extends BaseFragment {
             public void OnItemClick(View view, int position, Object data) {
                 mMainActivity.replaceFragment(R.id.frame_content,((MenuItem) data).getFragmentInstance());
                 mMainActivity.closeDrawer();
-                mMainActivity.setTitle(((MenuItem) data).getTitle());
+                mMainActivity.setToolbarTitle(((MenuItem) data).getTitle());
 
             }
         });

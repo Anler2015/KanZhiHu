@@ -67,6 +67,7 @@ public class AnswersListAdapter extends EasyRecyclerViewAdapter<Answer> {
                 intent.putExtra("title",data.getTitle());
                 intent.putExtra("vote",data.getVote());
                 mActivity.startActivity(intent);
+
             }
         });
     }

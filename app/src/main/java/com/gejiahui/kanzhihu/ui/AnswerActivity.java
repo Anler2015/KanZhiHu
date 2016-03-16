@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.TextView;
@@ -63,6 +64,13 @@ public class AnswerActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         setSupportActionBar(mToolbar);
+        mToolbar.setNavigationIcon(R.drawable.ic_settings_black_24dp);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         answerURL = getIntent().getStringExtra("url");
         title.setText(getIntent().getStringExtra("title"));
         userURL = getIntent().getStringExtra("userurl");
@@ -74,6 +82,8 @@ public class AnswerActivity extends BaseActivity {
 
     }
 
+
+
     private void webViewInit(){
 
         webView.getSettings().setJavaScriptEnabled(true);
@@ -84,23 +94,44 @@ public class AnswerActivity extends BaseActivity {
 
     private String getHtml(String body){
         final StringBuilder sb = new StringBuilder();
+//        sb.append("<!DOCTYPE html>");
+//        sb.append("<html dir=\"ltr\" lang=\"zh\">");
+//        sb.append("<head><style>img{ max-width: 100%!important;height: auto!important; display: block; margin: 10px 0;}</style>");
+//        sb.append("<meta name=\"viewport\" content=\"width=100%; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;\" />");
+//        sb.append("<link rel=\"stylesheet\" href='file:///android_assets/style.css' type=\"text/css\" media=\"screen\" />");
+//        sb.append("</head>");
+//        sb.append("<body style=\"padding:0px 8px 8px 8px; word-wrap:break-word;\">");
+//        sb.append("<div id=\"pagewrapper\">");
+//        sb.append("<div id=\"mainwrapper\" class=\"clearfix\">");
+//        sb.append("<div id=\"maincontent\">");
+//        sb.append("<div class=\"post\">");
+//        sb.append("<div class=\"posthit\">");
+//        sb.append("<div class=\"postinfo\">");
+//        sb.append("</div>");
+//        sb.append("<div class=\"gjh\">");
+//        sb.append(body);
+//        sb.append("</div>");
+//        sb.append("</div>");
+//        sb.append("</div>");
+//        sb.append("</div>");
+//        sb.append("</div>");
+//        sb.append("</div>");
+//        sb.append("</body>");
+//        sb.append("</html>");
+
         sb.append("<!DOCTYPE html>");
         sb.append("<html dir=\"ltr\" lang=\"zh\">");
         sb.append("<head><style>img{ max-width: 100%!important;height: auto!important; display: block; margin: 10px 0;}</style>");
         sb.append("<meta name=\"viewport\" content=\"width=100%; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;\" />");
-        sb.append("<link rel=\"stylesheet\" href='file:///android_assets/style.css' type=\"text/css\" media=\"screen\" />");
+        sb.append("<link rel=\"stylesheet\" href='file:///android_assets/zh.css' type=\"text/css\" media=\"screen\" />");
         sb.append("</head>");
         sb.append("<body style=\"padding:0px 8px 8px 8px; word-wrap:break-word;\">");
-        sb.append("<div id=\"pagewrapper\">");
-        sb.append("<div id=\"mainwrapper\" class=\"clearfix\">");
-        sb.append("<div id=\"maincontent\">");
-        sb.append("<div class=\"post\">");
-        sb.append("<div class=\"posthit\">");
-        sb.append("<div class=\"postinfo\">");
-        sb.append("</div>");
-        sb.append("<div class=\"gjh\">");
+        sb.append("<div class=\"zu-main-content-inner\">");
+        sb.append("<div id=\"zh-question-answer-wrap\" class=\"zh-question-answer-wrapper autohide-false navigable\">");
+        sb.append("<div class=\"zm-item-answer  zm-item-expanded\">");
+        sb.append("<div class=\"zm-item-rich-text js-collapse-body\">");
+        sb.append("<div class=\"zm-editable-content clearfix\">");
         sb.append(body);
-        sb.append("</div>");
         sb.append("</div>");
         sb.append("</div>");
         sb.append("</div>");
@@ -125,7 +156,6 @@ public class AnswerActivity extends BaseActivity {
             Element element = content.get(i);
             Elements ans = element.getElementsByClass("clearfix");
             if(ans.size()!=0){
-//                Logger.d(element.getElementsByClass("clearfix").get(0)+"");
                 return imgReplace(ans.first().toString());
             }
 

@@ -49,7 +49,7 @@
             android:layout_marginTop="8dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            fresco:placeholderImage="@drawable/text"
+            fresco:placeholderImage="@drawable/placeholder"
             fresco:roundAsCircle="true"
             ></com.facebook.drawee.view.SimpleDraweeView>
         <TextView
