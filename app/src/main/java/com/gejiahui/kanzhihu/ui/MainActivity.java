@@ -13,6 +13,9 @@ import com.gejiahui.kanzhihu.base.BaseActivity;
 import com.gejiahui.kanzhihu.ui.fragment.ContentFragment;
 import com.gejiahui.kanzhihu.ui.fragment.MenuFragment;
 import com.orhanobut.logger.Logger;
+import com.rey.material.app.DatePickerDialog;
+
+import java.util.Calendar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -77,7 +80,18 @@ public class MainActivity extends BaseActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.calendar) {
+            
+            final DatePickerDialog dialog = new DatePickerDialog(MainActivity.this);
+            long maxTime = System.currentTimeMillis();
+            Calendar cal = dialog.getCalendar();
+            cal.setTimeInMillis(maxTime);
+            cal.add(Calendar.MONTH, -1);
+            long minTime = cal.getTimeInMillis();
+
+            dialog.dateRange(minTime, maxTime)
+                    .date(17,3,2016)
+                    .show();
             return true;
         }
 

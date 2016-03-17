@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:id="@+id/answer_card"
@@ -9,62 +8,62 @@
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
     android:layout_marginTop="4dp"
-    android:elevation="1dp"
     android:clickable="true"
+    android:elevation="1dp"
     android:foreground="?android:attr/selectableItemBackground"
     card:cardBackgroundColor="@color/white"
-    card:contentPadding="16dp"
     card:cardCornerRadius="3dp"
     card:cardPreventCornerOverlap="true"
-    card:cardUseCompatPadding="true">
+    card:cardUseCompatPadding="true"
+    card:contentPadding="16dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="64dp"
-            android:textStyle="bold"
+            android:textColor="@color/black"
             android:textSize="18sp"
-            android:textColor="@color/black"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textColor="@color/gray"
-            android:layout_marginTop="8dp"
-            android:layout_below="@id/title"
             android:layout_alignParentLeft="true"
             android:layout_alignRight="@id/title"
-             />
+            android:layout_below="@id/title"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/gray"
+            android:textSize="16sp" />
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/avatar"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:layout_marginTop="8dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            android:layout_marginTop="8dp"
             fresco:placeholderImage="@drawable/placeholder"
-            fresco:roundAsCircle="true"
-            ></com.facebook.drawee.view.SimpleDraweeView>
+            fresco:roundAsCircle="true"></com.facebook.drawee.view.SimpleDraweeView>
+
         <TextView
             android:id="@+id/vote"
-            android:text="211"
-            android:layout_marginTop="4dp"
-            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textColor="@color/blue_dark"
-            android:background="@color/blue_light"
-            android:layout_below="@id/avatar"
+            android:layout_alignLeft="@id/avatar"
             android:layout_alignRight="@id/avatar"
-            android:layout_alignLeft="@id/avatar" />
+            android:layout_below="@id/avatar"
+            android:layout_marginTop="4dp"
+            android:background="@color/blue_light"
+            android:gravity="center"
+            android:text="211"
+            android:textColor="@color/blue_dark"
+            android:textSize="16sp" />
 
     </RelativeLayout>
 

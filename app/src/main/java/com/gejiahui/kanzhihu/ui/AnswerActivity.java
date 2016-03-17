@@ -67,7 +67,7 @@ public class AnswerActivity extends BaseActivity {
         ButterKnife.bind(this);
         rotateLoading.start();
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationIcon(R.drawable.ic_settings_black_24dp);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

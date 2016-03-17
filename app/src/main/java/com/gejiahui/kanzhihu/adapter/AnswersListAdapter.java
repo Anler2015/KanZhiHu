@@ -106,7 +106,9 @@ public class AnswersListAdapter extends EasyRecyclerViewAdapter<Answer> {
                 if(error instanceof ParseError4String){
                     mLoadResultCallBack.onFail(((ParseError4String)error).getErrorReason());
                 }
-
+                else{
+                    mLoadResultCallBack.onFail("on fail");
+                }
 
             }
         });

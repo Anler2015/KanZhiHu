@@ -117,5 +117,9 @@ public class ContentFragment extends BaseFragment implements LoadResultCallBack 
             Logger.d((Integer.parseInt(getTodayTime())-1)+"");
             adapter.loadDatas((Integer.parseInt(getTodayTime())-1)+"",type);
         }
+        else{
+            rotateloading.stop();//停止转动
+        }
+
     }
 }

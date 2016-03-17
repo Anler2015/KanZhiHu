@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gejiahui.kanzhihu">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name=".base.MyApplication"
@@ -21,9 +22,8 @@
         </activity>
         <activity
             android:name=".ui.AnswerActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".ui.MainActivity">
-        </activity>
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

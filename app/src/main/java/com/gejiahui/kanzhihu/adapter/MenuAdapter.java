@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gejiahui.kanzhihu.R;
@@ -43,6 +44,8 @@ public class MenuAdapter extends EasyRecyclerViewAdapter<MenuItem> {
         TextView title;
         @Bind(R.id.menu_item_img)
         ImageView img;
+        @Bind(R.id.men_item)
+        LinearLayout menuItem;
         public MenuViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
