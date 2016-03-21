@@ -29,7 +29,8 @@ import butterknife.ButterKnife;
  */
 public class ContentFragment extends BaseFragment implements LoadResultCallBack {
 
-    private int type = 1;
+    private int type = 0;
+    private String dateTime;
 
     @Bind(R.id.swipe_refreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -39,7 +40,7 @@ public class ContentFragment extends BaseFragment implements LoadResultCallBack 
     RotateLoading rotateloading;
 
     public ContentFragment() {
-
+        dateTime =  getTodayTime(); //获取今天的日期
     }
 
     public static ContentFragment getInstance(int type) {
@@ -50,6 +51,14 @@ public class ContentFragment extends BaseFragment implements LoadResultCallBack 
         return fragment;
     }
 
+    public static ContentFragment getInstance(int type,String time) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("type",type);
+        bundle.putString("datetime",time);
+        ContentFragment fragment = new ContentFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     AnswersListAdapter adapter;
     @Nullable
@@ -66,9 +75,10 @@ public class ContentFragment extends BaseFragment implements LoadResultCallBack 
         super.onActivityCreated(savedInstanceState);
         if(getArguments() != null){
             type = getArguments().getInt("type",0);
+            dateTime = getArguments().getString("datetime",getTodayTime());
         }
         adapter = new AnswersListAdapter(getActivity(),this);
-        adapter.loadDatas(getTodayTime(),type);
+        adapter.loadDatas(dateTime,type);
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
@@ -76,7 +86,7 @@ public class ContentFragment extends BaseFragment implements LoadResultCallBack 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                adapter.loadDatas(getTodayTime(),type);
+                adapter.loadDatas(dateTime,type);
             }
         });
 
@@ -114,8 +124,8 @@ public class ContentFragment extends BaseFragment implements LoadResultCallBack 
         }
         Logger.d(failReason);
         if(failReason.equals("no result")){
-            Logger.d((Integer.parseInt(getTodayTime())-1)+"");
-            adapter.loadDatas((Integer.parseInt(getTodayTime())-1)+"",type);
+            Logger.d((Integer.parseInt(dateTime)-1)+"");
+            adapter.loadDatas((Integer.parseInt(dateTime)-1)+"",type);
         }
         else{
             rotateloading.stop();//停止转动

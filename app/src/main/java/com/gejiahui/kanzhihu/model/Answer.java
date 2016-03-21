@@ -52,6 +52,9 @@ public class Answer {
             answer.title = jsonObject.getString("title");
             answer.datetime = jsonObject.getString("time");
             answer.summary = jsonObject.getString("summary");
+            if(answer.summary.isEmpty()){
+                answer.summary = "[图片]";
+            }
             answer.questionId = jsonObject.getString("questionid");
             answer.answerId = jsonObject.getString("answerid");
             answer.authorName = jsonObject.getString("authorname");

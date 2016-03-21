@@ -37,6 +37,11 @@ public class MenuAdapter extends EasyRecyclerViewAdapter<MenuItem> {
     public void onBind(RecyclerView.ViewHolder viewHolder, int RealPosition, MenuItem data) {
         ((MenuViewHolder)viewHolder).title.setText(data.getTitle());
         ((MenuViewHolder)viewHolder).img.setImageResource(data.getResId());
+        if(data.isSelected()){
+            ((MenuViewHolder)viewHolder).menuItem.setBackgroundResource(R.color.blue_dark);
+        }else{
+            ((MenuViewHolder)viewHolder).menuItem.setBackgroundResource(R.color.white);
+        }
     }
 
     class MenuViewHolder extends EasyViewHolder{
@@ -51,4 +56,6 @@ public class MenuAdapter extends EasyRecyclerViewAdapter<MenuItem> {
             ButterKnife.bind(this,itemView);
         }
     }
+
+
 }

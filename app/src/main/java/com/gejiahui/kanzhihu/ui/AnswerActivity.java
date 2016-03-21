@@ -77,10 +77,10 @@ public class AnswerActivity extends BaseActivity {
         answerURL = getIntent().getStringExtra("url");
         title.setText(getIntent().getStringExtra("title"));
         userURL = getIntent().getStringExtra("userurl");
+        webViewInit();
         getUserInfo();
         Logger.d(""+answerURL);
         Logger.d(""+userURL);
-        webViewInit();
         new WebLoadingThread().execute();
 
     }
@@ -91,7 +91,16 @@ public class AnswerActivity extends BaseActivity {
 
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-        webView.setVerticalScrollBarEnabled(false);
+//        webView.setWebViewClient(new WebViewClient(){
+//            @Override
+//            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//                // TODO Auto-generated method stub
+////                Intent intent = new Intent(Intent.ACTION_VIEW);
+////                startActivity(intent);
+//                Logger.d("########################");
+//                return false;
+//            }
+//        });
 
     }
 
@@ -162,12 +171,11 @@ public class AnswerActivity extends BaseActivity {
                 return imgReplace(ans.first().toString());
             }
 
-
         }
 
         return "<div class=\"answer-status\" id=\"answer-status\">\n" +
                 "<a class=\"zg-right\" data-tip=\"s$b$为什么回答会被建议修改？\" href=\"/question/24752645\"><i class=\"zg-icon zg-icon-question-mark\"></i></a>\n" +
-                "<p>回答等待修改（已修改・评估中）：<a href=\"/question/20258015\">不规范转载</a></p>\n" +
+                "<p>回答等待修改（已修改・评估中）：不规范转载</a></p>\n" +
                 "<p class=\"note\">\n" +
                 "\n" +
                 "作者修改内容通过后，回答会重新显示。如果一周内未得到有效修改，回答会自动折叠。\n" +
@@ -179,7 +187,7 @@ public class AnswerActivity extends BaseActivity {
 
 
     /**
-     * 将html中从默认的地址换成震震的imgUrl
+     * 将html中从默认的地址换成真正的imgUrl
      * @param html
      * @return
      */
@@ -192,6 +200,20 @@ public class AnswerActivity extends BaseActivity {
         }
         return doc.toString();
     }
+
+    private String removePrefixOfUrl(String html){
+        Document  doc = Jsoup.parse(html);
+        String perfix = "//link.zhihu.com/?target=http%3A//";
+        Elements urls = doc.getElementsByTag("a");
+        for(int i = 0; i < urls.size(); i++){
+            String str = urls.get(i).attr("href");
+            Logger.d(str);
+            Logger.d(str.replaceAll(perfix,""));
+            urls.get(i).attr("href",str.replaceAll(perfix,""));
+        }
+        return doc.toString();
+    }
+
 
     private void getUserInfo(){
         request4UserDetail = new Request4UserDetail(userURL, new Response.Listener<UserDetail>() {
@@ -228,7 +250,8 @@ public class AnswerActivity extends BaseActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            webView.loadDataWithBaseURL(null, s, "text/html", "utf-8", null);
+
+            webView.loadDataWithBaseURL("", s, "text/html", "utf-8", null);
             rotateLoading.stop();
         }
     }

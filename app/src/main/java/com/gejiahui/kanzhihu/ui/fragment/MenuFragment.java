@@ -36,6 +36,9 @@ public class MenuFragment extends BaseFragment {
 
     private ArrayList<MenuItem> mDatas = new ArrayList<>();
     private MainActivity mMainActivity;
+    private int selectedItem = 0;
+    private MenuAdapter adapter;
+
     public MenuFragment() {
     }
 
@@ -60,7 +63,7 @@ public class MenuFragment extends BaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initDatas();
-        MenuAdapter adapter = new MenuAdapter(mDatas);
+        adapter = new MenuAdapter(mDatas);
         mRecyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new EasyRecyclerViewAdapter.OnItemClickListener() {
             @Override
@@ -68,7 +71,10 @@ public class MenuFragment extends BaseFragment {
                 mMainActivity.replaceFragment(R.id.frame_content,((MenuItem) data).getFragmentInstance());
                 mMainActivity.closeDrawer();
                 mMainActivity.setToolbarTitle(((MenuItem) data).getTitle());
-
+                selectedItem = position;
+                cleanDatasSelected();
+                ((MenuItem) data).setSelected(true);
+                adapter.notifyDataSetChanged();
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -78,12 +84,24 @@ public class MenuFragment extends BaseFragment {
           mDatas.add(new MenuItem("昨日精选", Constants.YESTERDAY_ANSWERS,R.drawable.ic_loyalty_black_24dp));
           mDatas.add(new MenuItem("近日精选", Constants.RECENT_ANSWERS,R.drawable.ic_loyalty_black_24dp));
           mDatas.add(new MenuItem("历史精选", Constants.ARCHIVE_ANSWERS,R.drawable.ic_loyalty_black_24dp));
-
+          mDatas.get(0).setSelected(true);
     }
+
+    private void cleanDatasSelected(){
+        for(MenuItem item : mDatas){
+            item.setSelected(false);
+        }
+    }
+
 
     private String getTodayTime(){
         SimpleDateFormat formatter= new SimpleDateFormat("yyyy年MM月dd日");
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
         return formatter.format(curDate);
+    }
+
+
+    public int getSelectedItem(){
+        return selectedItem;
     }
 }

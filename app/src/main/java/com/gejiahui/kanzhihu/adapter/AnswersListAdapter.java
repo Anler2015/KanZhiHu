@@ -56,7 +56,6 @@ public class AnswersListAdapter extends EasyRecyclerViewAdapter<Answer> {
         ((AnswerViewHolder)viewHolder).title.setText(data.getTitle());
         ((AnswerViewHolder)viewHolder).body.setText(data.getSummary());
         ((AnswerViewHolder)viewHolder).vote.setText(data.getVote());
-         Logger.d(data.getAvatarUrl());
         ((AnswerViewHolder)viewHolder).avatar.setImageURI(Uri.parse(data.getAvatarUrl()));
         ((AnswerViewHolder)viewHolder).answerCard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,7 +130,7 @@ public class AnswersListAdapter extends EasyRecyclerViewAdapter<Answer> {
 
             default:
                 return GET_ANSWER_CONTENT_URL+time+YESTERDAY;
-        }
+}
 
     }
 }

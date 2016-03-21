@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroud"
+    android:background="@color/background"
     android:fitsSystemWindows="false"
     tools:context=".ui.MainActivity">
 

@@ -11,7 +11,7 @@ public class MenuItem  {
     private String  title;
     private int resId;
     private int type = 1;
-
+    private boolean selected = false;
     public MenuItem(String title, int type, int resId) {
         this.title = title;
         this.type = type;
@@ -38,6 +38,14 @@ public class MenuItem  {
 
     public int getResId() {
         return resId;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     public void setResId(int resId) {
