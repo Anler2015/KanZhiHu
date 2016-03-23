@@ -48,6 +48,8 @@ public class MainActivity extends BaseActivity {
         mMenuFragment = new MenuFragment();
         replaceFragment(R.id.frame_menu, mMenuFragment);
         selectedTime = System.currentTimeMillis();
+
+
     }
 
     @Override

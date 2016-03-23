@@ -1,8 +1,7 @@
 package com.gejiahui.kanzhihu.model;
 
 import com.alibaba.fastjson.JSONArray;
-
-import java.util.ArrayList;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * Created by gejiahui on 2016/3/15.
@@ -13,7 +12,7 @@ public class UserDetail {
     private String avatar;
     private String signature;
     private String description;
-    private Detail detail;
+    private JSONObject detail;
     private Star  star;
     private JSONArray trend;
     private JSONArray topanswers;
@@ -57,6 +56,13 @@ public class UserDetail {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public JSONObject getDetail() {
+
+        return detail;
+    }
+
+
 
     public class Detail{
         //提问数
@@ -126,6 +132,17 @@ public class UserDetail {
         //   赞同≥100答案数
         private String count100;
 
+        public String getFav() {
+            return fav;
+        }
+
+        public String getThanks() {
+            return thanks;
+        }
+
+        public String getPost() {
+            return post;
+        }
     }
 
     public class Star{

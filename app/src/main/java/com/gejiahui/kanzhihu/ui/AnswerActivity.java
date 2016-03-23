@@ -1,5 +1,6 @@
 package com.gejiahui.kanzhihu.ui;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,14 +9,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.generic.GenericDraweeHierarchy;
-import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
-import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.gejiahui.kanzhihu.R;
 import com.gejiahui.kanzhihu.base.BaseActivity;
@@ -25,6 +23,7 @@ import com.gejiahui.kanzhihu.net.RequestManager;
 import com.orhanobut.logger.Logger;
 import com.victor.loading.rotate.RotateLoading;
 
+import org.greenrobot.eventbus.EventBus;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -55,10 +54,13 @@ public class AnswerActivity extends BaseActivity {
     SimpleDraweeView avatar;
     @Bind(R.id.rotateloading)
     RotateLoading rotateLoading;
+    @Bind(R.id.user_info)
+    RelativeLayout user_info;
 
     private String answerURL;
     private String userURL;
     private Request4UserDetail request4UserDetail;
+    private UserDetail mUserDetail;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,11 +80,11 @@ public class AnswerActivity extends BaseActivity {
         title.setText(getIntent().getStringExtra("title"));
         userURL = getIntent().getStringExtra("userurl");
         webViewInit();
+        setListener();
         getUserInfo();
         Logger.d(""+answerURL);
         Logger.d(""+userURL);
         new WebLoadingThread().execute();
-
     }
 
 
@@ -91,17 +93,21 @@ public class AnswerActivity extends BaseActivity {
 
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-//        webView.setWebViewClient(new WebViewClient(){
-//            @Override
-//            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//                // TODO Auto-generated method stub
-////                Intent intent = new Intent(Intent.ACTION_VIEW);
-////                startActivity(intent);
-//                Logger.d("########################");
-//                return false;
-//            }
-//        });
 
+    }
+
+    private void setListener(){
+        user_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AnswerActivity.this,UserDetailsActivity.class);
+                startActivity(intent);
+                if(mUserDetail != null){
+                    Logger.d("发出l ");
+                    EventBus.getDefault().postSticky(mUserDetail);
+                }
+            }
+        });
     }
 
     private String getHtml(String body){
@@ -168,11 +174,10 @@ public class AnswerActivity extends BaseActivity {
             Element element = content.get(i);
             Elements ans = element.getElementsByClass("clearfix");
             if(ans.size()!=0){
-                return imgReplace(ans.first().toString());
+                return imgReplace(ans.first().toString()); //替换img
             }
 
         }
-
         return "<div class=\"answer-status\" id=\"answer-status\">\n" +
                 "<a class=\"zg-right\" data-tip=\"s$b$为什么回答会被建议修改？\" href=\"/question/24752645\"><i class=\"zg-icon zg-icon-question-mark\"></i></a>\n" +
                 "<p>回答等待修改（已修改・评估中）：不规范转载</a></p>\n" +
@@ -203,13 +208,16 @@ public class AnswerActivity extends BaseActivity {
 
     private String removePrefixOfUrl(String html){
         Document  doc = Jsoup.parse(html);
-        String perfix = "//link.zhihu.com/?target=http%3A//";
+        String prefix = "//link.zhihu.com/?target=http%3A//";
         Elements urls = doc.getElementsByTag("a");
         for(int i = 0; i < urls.size(); i++){
             String str = urls.get(i).attr("href");
+            int m = str.indexOf(prefix);
             Logger.d(str);
-            Logger.d(str.replaceAll(perfix,""));
-            urls.get(i).attr("href",str.replaceAll(perfix,""));
+            Logger.d(m+"");
+            if( m >=0 ){
+                urls.get(i).attr("href",str.substring(m+34));
+            }
         }
         return doc.toString();
     }
@@ -219,18 +227,17 @@ public class AnswerActivity extends BaseActivity {
         request4UserDetail = new Request4UserDetail(userURL, new Response.Listener<UserDetail>() {
             @Override
             public void onResponse(UserDetail response) {
+                mUserDetail = response;
                 userName.setText(response.getName());
                 userSignature.setText(response.getSignature());
-            //    avatar.setImageURI(Uri.parse(response.getAvatar()));
+                avatar.setImageURI(Uri.parse(response.getAvatar()));
                 voteNumber.setText(getIntent().getStringExtra("vote"));
-
-
-                GenericDraweeHierarchy hierarchy = new GenericDraweeHierarchyBuilder(getResources())
-                        .setFadeDuration(400)
-                        .build();
-                DraweeController controller = Fresco.newDraweeControllerBuilder().setUri(Uri.parse(response.getAvatar())).setOldController(avatar.getController()).build();
-                controller.setHierarchy(hierarchy);
-                avatar.setController(controller);
+//                GenericDraweeHierarchy hierarchy = new GenericDraweeHierarchyBuilder(getResources())
+//                        .setFadeDuration(400)
+//                        .build();
+//                DraweeController controller = Fresco.newDraweeControllerBuilder().setUri(Uri.parse(response.getAvatar())).setOldController(avatar.getController()).build();
+//                controller.setHierarchy(hierarchy);
+//                avatar.setController(controller);
             }
         }, new Response.ErrorListener() {
             @Override
