@@ -19,36 +19,35 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by gejiahui on 2016/3/23.
+ * Created by gejiahui on 2016/3/24.
  */
-public class DetailsInfoFragment extends BaseFragment {
+public class HomePageFragment extends BaseFragment {
+    @Bind(R.id.signature)
+    TextView signature;
+    @Bind(R.id.followee)
+    TextView followee;
+    @Bind(R.id.follower)
+    TextView follower;
+    @Bind(R.id.post)
+    TextView post;
+    @Bind(R.id.description)
+    TextView description;
     @Bind(R.id.thumb)
     TextView thumb;
     @Bind(R.id.thanks)
     TextView thanks;
-    @Bind(R.id.fav)
-    TextView fav;
-    @Bind(R.id.share)
-    TextView share;
 
-    public DetailsInfoFragment() {
+    public HomePageFragment() {
     }
-
-
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_detail_info,container,false);
+
+        View view = inflater.inflate(R.layout.fragment_user_homepage,container,false);
         ButterKnife.bind(this,view);
         return view;
     }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
-
 
     @Override
     public void onStart() {
@@ -64,12 +63,13 @@ public class DetailsInfoFragment extends BaseFragment {
 
     @Subscribe(sticky = true,threadMode = ThreadMode.MAIN) //在ui线程执行
     public void onUserDetailEvent(UserDetail userInfo) {
+        signature.setText(userInfo.getSignature());
+        description.setText(userInfo.getDescription());
+        followee.setText(userInfo.getDetail().getString("followee"));
+        follower.setText(userInfo.getDetail().getString("follower"));
+        post.setText(userInfo.getDetail().getString("post"));
         thumb.setText(userInfo.getDetail().getString("agree"));
         thanks.setText(userInfo.getDetail().getString("thanks"));
-        fav.setText(userInfo.getDetail().getString("fav"));
-        share.setText(userInfo.getDetail().getString("count2000"));
     }
-
-
 
 }

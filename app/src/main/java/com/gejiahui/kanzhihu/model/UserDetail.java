@@ -13,7 +13,7 @@ public class UserDetail {
     private String signature;
     private String description;
     private JSONObject detail;
-    private Star  star;
+    private JSONObject  star;
     private JSONArray trend;
     private JSONArray topanswers;
 
@@ -58,11 +58,36 @@ public class UserDetail {
     }
 
     public JSONObject getDetail() {
-
         return detail;
     }
 
+    public void setDetail(JSONObject detail) {
+        this.detail = detail;
+    }
 
+    public JSONObject getStar() {
+        return star;
+    }
+
+    public void setStar(JSONObject star) {
+        this.star = star;
+    }
+
+    public JSONArray getTrend() {
+        return trend;
+    }
+
+    public void setTrend(JSONArray trend) {
+        this.trend = trend;
+    }
+
+    public JSONArray getTopanswers() {
+        return topanswers;
+    }
+
+    public void setTopanswers(JSONArray topanswers) {
+        this.topanswers = topanswers;
+    }
 
     public class Detail{
         //提问数

@@ -5,13 +5,9 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
-import com.gejiahui.kanzhihu.model.Answer;
-import com.gejiahui.kanzhihu.model.Content;
 import com.gejiahui.kanzhihu.model.UserDetail;
-import com.orhanobut.logger.Logger;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 
 /**
  * Created by gejiahui on 2016/3/15.

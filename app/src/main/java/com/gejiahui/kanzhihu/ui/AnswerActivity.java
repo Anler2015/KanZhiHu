@@ -5,7 +5,9 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -59,8 +61,11 @@ public class AnswerActivity extends BaseActivity {
 
     private String answerURL;
     private String userURL;
+    private String questionURL;
     private Request4UserDetail request4UserDetail;
     private UserDetail mUserDetail;
+    private Document doc = null;
+    private Document questuinDoc = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,9 +81,10 @@ public class AnswerActivity extends BaseActivity {
                 finish();
             }
         });
-        answerURL = getIntent().getStringExtra("url");
+        answerURL = getIntent().getStringExtra("answerUrl");
         title.setText(getIntent().getStringExtra("title"));
-        userURL = getIntent().getStringExtra("userurl");
+        userURL = getIntent().getStringExtra("userUrl");
+        questionURL = getIntent().getStringExtra("questionUrl");
         webViewInit();
         setListener();
         getUserInfo();
@@ -108,73 +114,66 @@ public class AnswerActivity extends BaseActivity {
                 }
             }
         });
+
+        title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                android.support.v7.app.AlertDialog.Builder builder = new AlertDialog.Builder(AnswerActivity.this);
+                View view = LayoutInflater.from(getBaseContext()).inflate(R.layout.dialog_webview,null,false);
+
+                builder.setTitle(title.getText())
+                        .setView(view)
+                        .setNegativeButton("取消", null)
+                        .setPositiveButton("确定", null)
+                        .show();
+            }
+        });
+
+
+
     }
 
     private String getHtml(String body){
         final StringBuilder sb = new StringBuilder();
-//        sb.append("<!DOCTYPE html>");
-//        sb.append("<html dir=\"ltr\" lang=\"zh\">");
-//        sb.append("<head><style>img{ max-width: 100%!important;height: auto!important; display: block; margin: 10px 0;}</style>");
-//        sb.append("<meta name=\"viewport\" content=\"width=100%; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;\" />");
-//        sb.append("<link rel=\"stylesheet\" href='file:///android_assets/style.css' type=\"text/css\" media=\"screen\" />");
-//        sb.append("</head>");
-//        sb.append("<body style=\"padding:0px 8px 8px 8px; word-wrap:break-word;\">");
-//        sb.append("<div id=\"pagewrapper\">");
-//        sb.append("<div id=\"mainwrapper\" class=\"clearfix\">");
-//        sb.append("<div id=\"maincontent\">");
-//        sb.append("<div class=\"post\">");
-//        sb.append("<div class=\"posthit\">");
-//        sb.append("<div class=\"postinfo\">");
-//        sb.append("</div>");
-//        sb.append("<div class=\"gjh\">");
-//        sb.append(body);
-//        sb.append("</div>");
-//        sb.append("</div>");
-//        sb.append("</div>");
-//        sb.append("</div>");
-//        sb.append("</div>");
-//        sb.append("</div>");
-//        sb.append("</body>");
-//        sb.append("</html>");
-
         sb.append("<!DOCTYPE html>");
         sb.append("<html dir=\"ltr\" lang=\"zh\">");
         sb.append("<head><style>img{ max-width: 100%!important;height: auto!important; display: block; margin: 10px 0;}</style>");
         sb.append("<meta name=\"viewport\" content=\"width=100%; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;\" />");
-        sb.append("<link rel=\"stylesheet\" href='file:///android_assets/zh.css' type=\"text/css\" media=\"screen\" />");
+        sb.append("<link rel=\"stylesheet\" href='file:///android_assets/style.css' type=\"text/css\" media=\"screen\" />");
         sb.append("</head>");
         sb.append("<body style=\"padding:0px 8px 8px 8px; word-wrap:break-word;\">");
-        sb.append("<div class=\"zu-main-content-inner\">");
-        sb.append("<div id=\"zh-question-answer-wrap\" class=\"zh-question-answer-wrapper autohide-false navigable\">");
-        sb.append("<div class=\"zm-item-answer  zm-item-expanded\">");
-        sb.append("<div class=\"zm-item-rich-text js-collapse-body\">");
-        sb.append("<div class=\"zm-editable-content clearfix\">");
+        sb.append("<div class=\"content\">");
         sb.append(body);
-        sb.append("</div>");
-        sb.append("</div>");
-        sb.append("</div>");
-        sb.append("</div>");
         sb.append("</div>");
         sb.append("</body>");
         sb.append("</html>");
         return sb.toString();
     }
 
-    private  String getAnswerBody(String url){
-        Document doc = null;
+
+
+    private void getDocument(String url){
         try {
             doc = Jsoup.connect(url).get();
+            questuinDoc = Jsoup.connect(questionURL).get();
+            getQuestionDetailBody();
 
         }catch (IOException e){
 
         }
+    }
+
+
+
+    private  String getAnswerBody(){
+
         Elements content = doc.getElementsByClass("zm-editable-content");
         Logger.d(content.toString());
         for(int i = 0 ; i < content.size();i++){
             Element element = content.get(i);
             Elements ans = element.getElementsByClass("clearfix");
             if(ans.size()!=0){
-                return imgReplace(ans.first().toString()); //替换img
+                return addPrefixOfUrl(imgReplace(ans.first().toString())); //替换img
             }
 
         }
@@ -187,7 +186,13 @@ public class AnswerActivity extends BaseActivity {
                 "\n" +
                 "</p>\n" +
                 "</div>";
+    }
 
+
+    private  String getQuestionDetailBody(){
+        Element content = questuinDoc.getElementById("zh-question-detail");
+        Logger.d(content.toString());
+        return  addPrefixOfUrl(imgReplace(content.toString()));
     }
 
 
@@ -206,17 +211,16 @@ public class AnswerActivity extends BaseActivity {
         return doc.toString();
     }
 
-    private String removePrefixOfUrl(String html){
+    private String addPrefixOfUrl(String html){
         Document  doc = Jsoup.parse(html);
-        String prefix = "//link.zhihu.com/?target=http%3A//";
+        String prefix = "//link.zhihu.com";
         Elements urls = doc.getElementsByTag("a");
         for(int i = 0; i < urls.size(); i++){
             String str = urls.get(i).attr("href");
             int m = str.indexOf(prefix);
-            Logger.d(str);
-            Logger.d(m+"");
-            if( m >=0 ){
-                urls.get(i).attr("href",str.substring(m+34));
+
+            if( m ==0 ){
+                urls.get(i).attr("href","https:"+str);
             }
         }
         return doc.toString();
@@ -232,12 +236,6 @@ public class AnswerActivity extends BaseActivity {
                 userSignature.setText(response.getSignature());
                 avatar.setImageURI(Uri.parse(response.getAvatar()));
                 voteNumber.setText(getIntent().getStringExtra("vote"));
-//                GenericDraweeHierarchy hierarchy = new GenericDraweeHierarchyBuilder(getResources())
-//                        .setFadeDuration(400)
-//                        .build();
-//                DraweeController controller = Fresco.newDraweeControllerBuilder().setUri(Uri.parse(response.getAvatar())).setOldController(avatar.getController()).build();
-//                controller.setHierarchy(hierarchy);
-//                avatar.setController(controller);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -251,13 +249,13 @@ public class AnswerActivity extends BaseActivity {
     class WebLoadingThread extends AsyncTask<String,String,String>{
         @Override
         protected String doInBackground(String... params) {
-            return getHtml( getAnswerBody(answerURL));
+            getDocument(answerURL);
+            return getHtml( getAnswerBody());
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-
             webView.loadDataWithBaseURL("", s, "text/html", "utf-8", null);
             rotateLoading.stop();
         }

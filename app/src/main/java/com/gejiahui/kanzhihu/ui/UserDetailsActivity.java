@@ -17,6 +17,7 @@ import com.gejiahui.kanzhihu.adapter.TabFragmentAdapter;
 import com.gejiahui.kanzhihu.base.BaseActivity;
 import com.gejiahui.kanzhihu.model.UserDetail;
 import com.gejiahui.kanzhihu.ui.fragment.DetailsInfoFragment;
+import com.gejiahui.kanzhihu.ui.fragment.HomePageFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -75,6 +76,7 @@ public class UserDetailsActivity extends BaseActivity {
     public void onUserDetailEvent(UserDetail userInfo) {
         avatar.setImageURI(Uri.parse(userInfo.getAvatar()));
         name.setText(userInfo.getName());
+
     }
 
     private void viewInit(){
@@ -89,10 +91,10 @@ public class UserDetailsActivity extends BaseActivity {
         tabLayout.addTab(tabLayout.newTab().setText(tabList.get(1)));
 
         List<Fragment> fragmentList = new ArrayList<>();
-        for (int i = 0; i < tabList.size(); i++) {
-            Fragment f1 = new DetailsInfoFragment();
-            fragmentList.add(f1);
-        }
+
+        fragmentList.add(new HomePageFragment());
+        fragmentList.add(new DetailsInfoFragment());
+
 
         TabFragmentAdapter adapter = new TabFragmentAdapter(getSupportFragmentManager(),tabList,fragmentList);
         viewPager.setAdapter(adapter);
