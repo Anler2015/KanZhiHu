@@ -88,27 +88,26 @@ public class AnswerActivity extends BaseActivity {
         webViewInit();
         setListener();
         getUserInfo();
-        Logger.d(""+answerURL);
-        Logger.d(""+userURL);
+        Logger.d("" + answerURL);
+        Logger.d("" + userURL);
         new WebLoadingThread().execute();
     }
 
 
-
-    private void webViewInit(){
+    private void webViewInit() {
 
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 
     }
 
-    private void setListener(){
+    private void setListener() {
         user_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AnswerActivity.this,UserDetailsActivity.class);
+                Intent intent = new Intent(AnswerActivity.this, UserDetailsActivity.class);
                 startActivity(intent);
-                if(mUserDetail != null){
+                if (mUserDetail != null) {
                     Logger.d("发出l ");
                     EventBus.getDefault().postSticky(mUserDetail);
                 }
@@ -119,21 +118,21 @@ public class AnswerActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 android.support.v7.app.AlertDialog.Builder builder = new AlertDialog.Builder(AnswerActivity.this);
-                View view = LayoutInflater.from(getBaseContext()).inflate(R.layout.dialog_webview,null,false);
-
+                View view = LayoutInflater.from(getBaseContext()).inflate(R.layout.dialog_webview, null, false);
+                WebView questionWebView = (WebView) view.findViewById(R.id.question_webview);
+                questionWebView.getSettings().setJavaScriptEnabled(true);
+                questionWebView.loadDataWithBaseURL(null, getHtml(getQuestionDetailBody()), "text/html", "utf-8", null);
                 builder.setTitle(title.getText())
                         .setView(view)
-                        .setNegativeButton("取消", null)
                         .setPositiveButton("确定", null)
                         .show();
             }
         });
 
 
-
     }
 
-    private String getHtml(String body){
+    private String getHtml(String body) {
         final StringBuilder sb = new StringBuilder();
         sb.append("<!DOCTYPE html>");
         sb.append("<html dir=\"ltr\" lang=\"zh\">");
@@ -150,32 +149,30 @@ public class AnswerActivity extends BaseActivity {
         return sb.toString();
     }
 
-
-
-    private void getDocument(String url){
+    private void getDocument(String url) {
         try {
             doc = Jsoup.connect(url).get();
             questuinDoc = Jsoup.connect(questionURL).get();
+            Logger.d(doc.toString());
             getQuestionDetailBody();
 
-        }catch (IOException e){
+        } catch (IOException e) {
 
         }
     }
 
-
-
-    private  String getAnswerBody(){
-
-        Elements content = doc.getElementsByClass("zm-editable-content");
-        Logger.d(content.toString());
-        for(int i = 0 ; i < content.size();i++){
-            Element element = content.get(i);
-            Elements ans = element.getElementsByClass("clearfix");
-            if(ans.size()!=0){
-                return addPrefixOfUrl(imgReplace(ans.first().toString())); //替换img
+    private String getAnswerBody() {
+        if (doc != null) {
+            Elements content = doc.getElementsByClass("zm-editable-content");
+            if (content != null) {
+                for (int i = 0; i < content.size(); i++) {
+                    Element element = content.get(i);
+                    Elements ans = element.getElementsByClass("clearfix");
+                    if (ans.size() != 0) {
+                        return addPrefixOfUrl(imgReplace(ans.first().toString())); //替换img
+                    }
+                }
             }
-
         }
         return "<div class=\"answer-status\" id=\"answer-status\">\n" +
                 "<a class=\"zg-right\" data-tip=\"s$b$为什么回答会被建议修改？\" href=\"/question/24752645\"><i class=\"zg-icon zg-icon-question-mark\"></i></a>\n" +
@@ -189,45 +186,52 @@ public class AnswerActivity extends BaseActivity {
     }
 
 
-    private  String getQuestionDetailBody(){
-        Element content = questuinDoc.getElementById("zh-question-detail");
-        Logger.d(content.toString());
-        return  addPrefixOfUrl(imgReplace(content.toString()));
+    private String getQuestionDetailBody() {
+        if (questuinDoc != null) {
+            Element content = questuinDoc.getElementById("zh-question-detail");
+            if (content != null) {
+                Logger.d(content.toString());
+                return addPrefixOfUrl(imgReplace(content.toString()));
+            }
+        }
+        return "";
     }
 
 
     /**
      * 将html中从默认的地址换成真正的imgUrl
+     *
      * @param html
      * @return
      */
-    private String imgReplace(String html){
-        Document  doc = Jsoup.parse(html);
+    private String imgReplace(String html) {
+        Document doc = Jsoup.parse(html);
         Elements imgs = doc.getElementsByTag("img");
-        for(int i = 0; i < imgs.size(); i++){
+        for (int i = 0; i < imgs.size(); i++) {
             String imgUrl = imgs.get(i).attr("data-actualsrc");
-            imgs.get(i).attr("src",imgUrl);
+            imgs.get(i).attr("src", imgUrl);
         }
         return doc.toString();
     }
 
-    private String addPrefixOfUrl(String html){
-        Document  doc = Jsoup.parse(html);
+    //将地址拼接完整
+    private String addPrefixOfUrl(String html) {
+        Document doc = Jsoup.parse(html);
         String prefix = "//link.zhihu.com";
         Elements urls = doc.getElementsByTag("a");
-        for(int i = 0; i < urls.size(); i++){
+        for (int i = 0; i < urls.size(); i++) {
             String str = urls.get(i).attr("href");
             int m = str.indexOf(prefix);
 
-            if( m ==0 ){
-                urls.get(i).attr("href","https:"+str);
+            if (m == 0) {
+                urls.get(i).attr("href", "https:" + str);
             }
         }
         return doc.toString();
     }
 
 
-    private void getUserInfo(){
+    private void getUserInfo() {
         request4UserDetail = new Request4UserDetail(userURL, new Response.Listener<UserDetail>() {
             @Override
             public void onResponse(UserDetail response) {
@@ -246,11 +250,11 @@ public class AnswerActivity extends BaseActivity {
         RequestManager.addQueue(request4UserDetail);
     }
 
-    class WebLoadingThread extends AsyncTask<String,String,String>{
+    class WebLoadingThread extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... params) {
             getDocument(answerURL);
-            return getHtml( getAnswerBody());
+            return getHtml(getAnswerBody());
         }
 
         @Override

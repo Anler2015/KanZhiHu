@@ -13,6 +13,7 @@ import com.gejiahui.kanzhihu.R;
 import com.gejiahui.kanzhihu.base.BaseActivity;
 import com.gejiahui.kanzhihu.ui.fragment.ContentFragment;
 import com.gejiahui.kanzhihu.ui.fragment.MenuFragment;
+import com.gejiahui.kanzhihu.utils.ThemeUtils;
 import com.orhanobut.logger.Logger;
 import com.rey.material.app.DatePickerDialog;
 
@@ -35,6 +36,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeUtils.onActivityCreateSetTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -48,7 +50,6 @@ public class MainActivity extends BaseActivity {
         mMenuFragment = new MenuFragment();
         replaceFragment(R.id.frame_menu, mMenuFragment);
         selectedTime = System.currentTimeMillis();
-
 
     }
 

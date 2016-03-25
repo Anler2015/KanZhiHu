@@ -41,33 +41,44 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_above="@+id/other"
-        android:background="@color/gray"></View>
+        android:background="@color/background"></View>
 
     <LinearLayout
         android:id="@+id/other"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="32dp"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/theme"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:background="@drawable/menu_item_selector"
             android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/setting_img"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="16dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_settings_black_24dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="48dp"
+                android:layout_marginLeft="16dp"
+                android:gravity="center_vertical"
+                android:text="@string/theme"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/setting"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/menu_item_selector"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
                 android:gravity="center_vertical"
                 android:text="@string/setting"
                 android:textSize="15sp" />

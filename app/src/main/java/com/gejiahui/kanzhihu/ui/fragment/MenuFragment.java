@@ -3,11 +3,13 @@ package com.gejiahui.kanzhihu.ui.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gejiahui.kanzhihu.R;
@@ -33,6 +35,10 @@ public class MenuFragment extends BaseFragment {
     RecyclerView mRecyclerView;
     @Bind(R.id.today_time)
     TextView todayTime;
+    @Bind(R.id.theme)
+    LinearLayout theme;
+    @Bind(R.id.setting)
+    LinearLayout setting;
 
     private ArrayList<MenuItem> mDatas = new ArrayList<>();
     private MainActivity mMainActivity;
@@ -45,16 +51,15 @@ public class MenuFragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mMainActivity = (MainActivity)context;
+        mMainActivity = (MainActivity) context;
     }
-
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_menu,container,false);
-        ButterKnife.bind(this,view);
+        View view = inflater.inflate(R.layout.fragment_menu, container, false);
+        ButterKnife.bind(this, view);
         todayTime.setText(getTodayTime());
         return view;
     }
@@ -62,13 +67,14 @@ public class MenuFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        setListener();
         initDatas();
         adapter = new MenuAdapter(mDatas);
         mRecyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new EasyRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(View view, int position, Object data) {
-                mMainActivity.replaceFragment(R.id.frame_content,((MenuItem) data).getFragmentInstance());
+                mMainActivity.replaceFragment(R.id.frame_content, ((MenuItem) data).getFragmentInstance());
                 mMainActivity.closeDrawer();
                 mMainActivity.setToolbarTitle(((MenuItem) data).getTitle());
                 selectedItem = position;
@@ -80,28 +86,51 @@ public class MenuFragment extends BaseFragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
-    private void initDatas(){
-          mDatas.add(new MenuItem("昨日精选", Constants.YESTERDAY_ANSWERS,R.drawable.ic_loyalty_black_24dp));
-          mDatas.add(new MenuItem("近日精选", Constants.RECENT_ANSWERS,R.drawable.ic_loyalty_black_24dp));
-          mDatas.add(new MenuItem("历史精选", Constants.ARCHIVE_ANSWERS,R.drawable.ic_loyalty_black_24dp));
-          mDatas.get(0).setSelected(true);
+    private void initDatas() {
+        mDatas.add(new MenuItem("昨日精选", Constants.YESTERDAY_ANSWERS, R.drawable.ic_loyalty_black_24dp));
+        mDatas.add(new MenuItem("近日精选", Constants.RECENT_ANSWERS, R.drawable.ic_loyalty_black_24dp));
+        mDatas.add(new MenuItem("历史精选", Constants.ARCHIVE_ANSWERS, R.drawable.ic_loyalty_black_24dp));
+        mDatas.get(0).setSelected(true);
     }
 
-    private void cleanDatasSelected(){
-        for(MenuItem item : mDatas){
+    private void setListener() {
+        theme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                if (ThemeUtils.sTheme == 1 ) {
+//                    ThemeUtils.changeToTheme(getActivity(),2);
+//                } else {
+//                    ThemeUtils.changeToTheme(getActivity(),1);
+//                }
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+//                mMainActivity.getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//                getActivity().recreate();
+            }
+        });
+
+        setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
+
+    private void cleanDatasSelected() {
+        for (MenuItem item : mDatas) {
             item.setSelected(false);
         }
     }
 
 
-    private String getTodayTime(){
-        SimpleDateFormat formatter= new SimpleDateFormat("yyyy年MM月dd日");
+    private String getTodayTime() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日");
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
         return formatter.format(curDate);
     }
 
 
-    public int getSelectedItem(){
+    public int getSelectedItem() {
         return selectedItem;
     }
 }

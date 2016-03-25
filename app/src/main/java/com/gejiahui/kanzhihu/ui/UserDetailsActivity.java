@@ -79,10 +79,6 @@ public class UserDetailsActivity extends BaseActivity {
 
     }
 
-    private void viewInit(){
-
-    }
-
     private void initTab(){
         tabList.add("个人主页");
         tabList.add("详细信息");

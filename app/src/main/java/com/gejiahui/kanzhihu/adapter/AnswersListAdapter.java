@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.gejiahui.kanzhihu.CallBack.LoadResultCallBack;
+import com.gejiahui.kanzhihu.callBack.LoadResultCallBack;
 import com.gejiahui.kanzhihu.R;
 import com.gejiahui.kanzhihu.base.EasyRecyclerViewAdapter;
 import com.gejiahui.kanzhihu.model.Answer;
