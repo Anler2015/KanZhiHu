@@ -12,7 +12,7 @@ import java.io.UnsupportedEncodingException;
 /**
  * Created by gejiahui on 2016/3/15.
  */
-public class Request4UserDetail extends Request<UserDetail>{
+public class Request4UserDetail extends Request<UserDetail> {
     private Response.Listener<UserDetail> listener;
 
     public Request4UserDetail(String url, Response.Listener<UserDetail> listener, Response.ErrorListener errorListener) {
@@ -25,15 +25,14 @@ public class Request4UserDetail extends Request<UserDetail>{
     @Override
     protected Response<UserDetail> parseNetworkResponse(NetworkResponse response) {
         try {
-            String parsed = new String(response.data,  HttpHeaderParser.parseCharset(response.headers));
+            String parsed = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
 
-            UserDetail res = JSON.parseObject(parsed,UserDetail.class);
+            UserDetail res = JSON.parseObject(parsed, UserDetail.class);
 
-            if(res.getError().equals("")){
+            if (res.getError().equals("")) {
                 return Response.success(res,
                         HttpHeaderParser.parseCacheHeaders(response));
-            }
-            else {  //error不为空说明出错
+            } else {  //error不为空说明出错
                 return Response.error(new ParseError4String(res.getError()));
             }
         } catch (UnsupportedEncodingException e) {

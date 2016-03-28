@@ -28,32 +28,33 @@ public class MenuAdapter extends EasyRecyclerViewAdapter<MenuItem> {
 
     @Override
     public RecyclerView.ViewHolder onCreate(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_item, parent, false);
 
         return new MenuViewHolder(view);
     }
 
     @Override
     public void onBind(RecyclerView.ViewHolder viewHolder, int RealPosition, MenuItem data) {
-        ((MenuViewHolder)viewHolder).title.setText(data.getTitle());
-        ((MenuViewHolder)viewHolder).img.setImageResource(data.getResId());
-        if(data.isSelected()){
-            ((MenuViewHolder)viewHolder).menuItem.setBackgroundResource(R.color.menu_selected);
-        }else{
-            ((MenuViewHolder)viewHolder).menuItem.setBackgroundResource(R.color.white);
+        ((MenuViewHolder) viewHolder).title.setText(data.getTitle());
+        ((MenuViewHolder) viewHolder).img.setImageResource(data.getResId());
+        if (data.isSelected()) {
+            ((MenuViewHolder) viewHolder).menuItem.setBackgroundResource(R.color.menu_selected);
+        } else {
+            ((MenuViewHolder) viewHolder).menuItem.setBackgroundResource(R.color.white);
         }
     }
 
-    class MenuViewHolder extends EasyViewHolder{
+    class MenuViewHolder extends EasyViewHolder {
         @Bind(R.id.menu_item_title)
         TextView title;
         @Bind(R.id.menu_item_img)
         ImageView img;
         @Bind(R.id.men_item)
         LinearLayout menuItem;
+
         public MenuViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 

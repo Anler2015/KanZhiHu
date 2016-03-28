@@ -13,7 +13,7 @@ public class UserDetail {
     private String signature;
     private String description;
     private JSONObject detail;
-    private JSONObject  star;
+    private JSONObject star;
     private JSONArray trend;
     private JSONArray topanswers;
 
@@ -89,7 +89,7 @@ public class UserDetail {
         this.topanswers = topanswers;
     }
 
-    public class Detail{
+    public class Detail {
         //提问数
         private String ask;
         //回答数
@@ -170,7 +170,7 @@ public class UserDetail {
         }
     }
 
-    public class Star{
+    public class Star {
         //回答数+专栏文章数排名
         private String answerrank;
         //赞同数排名

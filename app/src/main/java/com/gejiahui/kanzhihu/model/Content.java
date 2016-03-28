@@ -6,7 +6,7 @@ import com.alibaba.fastjson.JSONArray;
 /**
  * Created by gejiahui on 2016/3/12.
  */
-public class Content  {
+public class Content {
 
     private String error;
     private int count;

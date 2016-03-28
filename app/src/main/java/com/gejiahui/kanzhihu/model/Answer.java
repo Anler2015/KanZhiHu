@@ -1,9 +1,6 @@
 package com.gejiahui.kanzhihu.model;
 
 
-
-
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
@@ -30,7 +27,7 @@ public class Answer {
 
     private static String QUESTION_URL_PREFIX = "http://www.zhihu.com/question/";
     private static String ANSWER_URL_POSTFIX = "/answer/";
-   // private static String USER_URL_PREFIX = "http://www.zhihu.com/people/";
+    // private static String USER_URL_PREFIX = "http://www.zhihu.com/people/";
     private static String USER_URL_PREFIX = "http://api.kanzhihu.com/userdetail2/";
 
     private String title;
@@ -44,15 +41,15 @@ public class Answer {
     private String vote;
 
 
-    public static ArrayList<Answer> parse(JSONArray array){
+    public static ArrayList<Answer> parse(JSONArray array) {
         ArrayList<Answer> answers = new ArrayList<>();
-        for(int i = 0; i < array.size(); i++){
+        for (int i = 0; i < array.size(); i++) {
             Answer answer = new Answer();
             JSONObject jsonObject = array.getJSONObject(i);
             answer.title = jsonObject.getString("title");
             answer.datetime = jsonObject.getString("time");
             answer.summary = jsonObject.getString("summary");
-            if(answer.summary.isEmpty()){
+            if (answer.summary.isEmpty()) {
                 answer.summary = "[图片]";
             }
             answer.questionId = jsonObject.getString("questionid");
@@ -66,15 +63,15 @@ public class Answer {
         return answers;
     }
 
-    public String getQuestionUrl(){
+    public String getQuestionUrl() {
         return QUESTION_URL_PREFIX + questionId;
     }
 
-    public String getAnswerUrl(){
+    public String getAnswerUrl() {
         return QUESTION_URL_PREFIX + questionId + ANSWER_URL_POSTFIX + answerId;
     }
 
-    public String getUserUrl(){
+    public String getUserUrl() {
         return USER_URL_PREFIX + authorHash;
     }
 
@@ -125,7 +122,6 @@ public class Answer {
     public static void setUserUrlPrefix(String userUrlPrefix) {
         USER_URL_PREFIX = userUrlPrefix;
     }
-
 
 
     public String getTitle() {

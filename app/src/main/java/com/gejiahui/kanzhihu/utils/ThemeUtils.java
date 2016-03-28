@@ -1,47 +1,29 @@
 package com.gejiahui.kanzhihu.utils;
 
-import android.app.Activity;
-import android.content.Intent;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 
-import com.gejiahui.kanzhihu.R;
+import com.gejiahui.kanzhihu.base.MyApplication;
+import com.stylingandroid.prism.Prism;
 
 /**
  * Created by gejiahui on 2016/3/25.
  */
 public class ThemeUtils {
 
-    public static int sTheme = 1;
-
-    public final static int THEME_DAY = 1;
-    public final static int THEME_NIGHT = 2;
-
-    /**
-     * Set the theme of the Activity, and restart it by creating a new Activity
-     * of the same type.
-     */
-    public static void changeToTheme(Activity activity, int theme)
-    {
-        sTheme = theme;
-        activity.finish();
-
-        activity.startActivity(new Intent(activity, activity.getClass()));
+    private static int defalutThemeColor = Color.rgb(00,119,217);
+    private static Context context = MyApplication.getContext();
+    public static void setThemeColor( Prism prism,int color){
+        prism.setColour(color);
+        SharedPreferences.Editor editor = context.getSharedPreferences("ThemeColor",context.MODE_PRIVATE).edit();
+        editor.putInt("themeColor",color);
+        editor.commit();
     }
 
-    /** Set the theme of the activity, according to the configuration. */
-    public static void onActivityCreateSetTheme(Activity activity)
-    {
-        switch (sTheme)
-        {
-
-            case THEME_DAY:
-                activity.setTheme(R.style.AppTheme);
-                break;
-            case THEME_NIGHT:
-                activity.setTheme(R.style.NightTheme);
-                break;
-            default:
-                activity.setTheme(R.style.AppTheme);
-                break;
-        }
+    public static int getThemeColor(){
+        SharedPreferences pref = context.getSharedPreferences("ThemeColor",context.MODE_PRIVATE);
+        return pref.getInt("themeColor",defalutThemeColor);
     }
+
 }

@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity {
     @Bind(R.id.toolbar)
-    Toolbar toolbar;
+    public Toolbar toolbar;
     @Bind(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
     ActionBarDrawerToggle mDrawerToggle;
@@ -36,14 +36,14 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ThemeUtils.onActivityCreateSetTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        toolbar.setBackgroundColor(ThemeUtils.getThemeColor());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,toolbar, R.string.app_name, R.string.app_name);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.app_name, R.string.app_name);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         toolbar.setTitle(getResources().getString(R.string.yesterday));
         replaceFragment(R.id.frame_content, new ContentFragment());
@@ -56,7 +56,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.anim_none,R.anim.anim_mian_out);
+        overridePendingTransition(R.anim.anim_none, R.anim.anim_mian_out);
     }
 
     /**
@@ -67,9 +67,9 @@ public class MainActivity extends BaseActivity {
     }
 
     /**
-     *设置toolbar标题
+     * 设置toolbar标题
      */
-    public void setToolbarTitle(String title){
+    public void setToolbarTitle(String title) {
         toolbar.setTitle(title);
     }
 
@@ -97,7 +97,7 @@ public class MainActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void showDatePickerDialog(){
+    private void showDatePickerDialog() {
         final DatePickerDialog dialog = new DatePickerDialog(MainActivity.this);
         long maxTime = System.currentTimeMillis();
         Calendar cal = dialog.getCalendar();
@@ -110,12 +110,12 @@ public class MainActivity extends BaseActivity {
                 .positiveActionClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SimpleDateFormat formatter= new SimpleDateFormat("yyyyMMdd");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
                         Date selectedDate = new Date(dialog.getDate());//获取当前时间
                         selectedTime = dialog.getDate();
                         String selectedTimeStr = formatter.format(selectedDate);
                         Logger.d(selectedTimeStr);
-                        replaceFragment(R.id.frame_content,  ContentFragment.getInstance(mMenuFragment.getSelectedItem(),selectedTimeStr));
+                        replaceFragment(R.id.frame_content, ContentFragment.getInstance(mMenuFragment.getSelectedItem(), selectedTimeStr));
                         dialog.dismiss();
                     }
                 })
@@ -135,7 +135,9 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    /** 设备配置改变时 */
+    /**
+     * 设备配置改变时
+     */
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);

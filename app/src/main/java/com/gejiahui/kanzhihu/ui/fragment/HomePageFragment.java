@@ -44,8 +44,8 @@ public class HomePageFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_user_homepage,container,false);
-        ButterKnife.bind(this,view);
+        View view = inflater.inflate(R.layout.fragment_user_homepage, container, false);
+        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -61,7 +61,7 @@ public class HomePageFragment extends BaseFragment {
         super.onStop();
     }
 
-    @Subscribe(sticky = true,threadMode = ThreadMode.MAIN) //在ui线程执行
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN) //在ui线程执行
     public void onUserDetailEvent(UserDetail userInfo) {
         signature.setText(userInfo.getSignature());
         description.setText(userInfo.getDescription());

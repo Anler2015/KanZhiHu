@@ -8,12 +8,14 @@ import com.android.volley.VolleyError;
  */
 public class ParseError4String extends VolleyError {
     private String errorReason;
-    public ParseError4String(String str)
-    {
+
+    public ParseError4String(String str) {
         super(str);
         errorReason = str;
     }
-    public ParseError4String() { }
+
+    public ParseError4String() {
+    }
 
     public ParseError4String(NetworkResponse networkResponse) {
         super(networkResponse);
@@ -23,7 +25,7 @@ public class ParseError4String extends VolleyError {
         super(cause);
     }
 
-    public String getErrorReason(){
+    public String getErrorReason() {
         return errorReason;
     }
 }

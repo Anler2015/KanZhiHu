@@ -19,11 +19,13 @@ import java.util.ArrayList;
 public class Request4Answers extends Request<ArrayList<Answer>> {
 
     private Response.Listener<ArrayList<Answer>> listener;
+
     /**
      * Creates a new GET request.
-     *104
-     * @param url URL to fetch the string at
-     * @param listener Listener to receive the String response
+     * 104
+     *
+     * @param url           URL to fetch the string at
+     * @param listener      Listener to receive the String response
      * @param errorListener Error listener, or null to ignore errors
      */
     public Request4Answers(String url, Response.Listener<ArrayList<Answer>> listener, Response.ErrorListener errorListener) {
@@ -31,19 +33,19 @@ public class Request4Answers extends Request<ArrayList<Answer>> {
         this.listener = listener;
 
     }
+
     @Override
     protected Response<ArrayList<Answer>> parseNetworkResponse(NetworkResponse response) {
 
         try {
-            String parsed = new String(response.data,  HttpHeaderParser.parseCharset(response.headers));
+            String parsed = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
 
-            Content res = JSON.parseObject(parsed,Content.class);
+            Content res = JSON.parseObject(parsed, Content.class);
 
-            if(res.getError().equals("")){
+            if (res.getError().equals("")) {
                 return Response.success(Answer.parse(res.getAnswers()),
                         HttpHeaderParser.parseCacheHeaders(response));
-            }
-            else {  //error不为空说明出错
+            } else {  //error不为空说明出错
                 return Response.error(new ParseError4String(res.getError()));
             }
         } catch (UnsupportedEncodingException e) {

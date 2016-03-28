@@ -3,6 +3,8 @@ package com.gejiahui.kanzhihu.ui;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -18,6 +20,7 @@ import com.gejiahui.kanzhihu.base.BaseActivity;
 import com.gejiahui.kanzhihu.model.UserDetail;
 import com.gejiahui.kanzhihu.ui.fragment.DetailsInfoFragment;
 import com.gejiahui.kanzhihu.ui.fragment.HomePageFragment;
+import com.gejiahui.kanzhihu.utils.ThemeUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -37,6 +40,10 @@ public class UserDetailsActivity extends BaseActivity {
     Toolbar toolbar;
     @Bind(R.id.tabLayout)
     TabLayout tabLayout;
+    @Bind(R.id.collasping_layout)
+    CollapsingToolbarLayout collapsingToolbarLayout;
+    @Bind(R.id.app_layout)
+    AppBarLayout appBarLayout;
     @Bind(R.id.viewPage)
     ViewPager viewPager;
     @Bind(R.id.exit)
@@ -46,17 +53,27 @@ public class UserDetailsActivity extends BaseActivity {
     @Bind(R.id.ans_avatar)
     SimpleDraweeView avatar;
     List<String> tabList = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_details);
         ButterKnife.bind(this);
+        setThemeColor();
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         initTab();
         setListener();
 
 
+    }
+
+    private void setThemeColor() {
+        int themeColor = ThemeUtils.getThemeColor();
+        toolbar.setBackgroundColor(themeColor);
+        appBarLayout.setBackgroundColor(themeColor);
+        collapsingToolbarLayout.setContentScrimColor(themeColor);
+        tabLayout.setBackgroundColor(themeColor);
     }
 
     @Override
@@ -72,14 +89,14 @@ public class UserDetailsActivity extends BaseActivity {
     }
 
 
-    @Subscribe(sticky = true,threadMode = ThreadMode.MAIN) //在ui线程执行
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN) //在ui线程执行
     public void onUserDetailEvent(UserDetail userInfo) {
         avatar.setImageURI(Uri.parse(userInfo.getAvatar()));
         name.setText(userInfo.getName());
 
     }
 
-    private void initTab(){
+    private void initTab() {
         tabList.add("个人主页");
         tabList.add("详细信息");
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
@@ -92,13 +109,13 @@ public class UserDetailsActivity extends BaseActivity {
         fragmentList.add(new DetailsInfoFragment());
 
 
-        TabFragmentAdapter adapter = new TabFragmentAdapter(getSupportFragmentManager(),tabList,fragmentList);
+        TabFragmentAdapter adapter = new TabFragmentAdapter(getSupportFragmentManager(), tabList, fragmentList);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabsFromPagerAdapter(adapter);
     }
 
-    private void setListener(){
+    private void setListener() {
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -9,5 +9,14 @@
     <color name="blue_light">#EFF6FA</color>
     <color name="blue_dark">#1583DC</color>
     <color name="background">#E3E3E3</color>
-    <color name="menu_selected">#8CC4FB</color>
+    <color name="menu_selected">#E3E3E3</color>
+
+    <color name="theme_blue">#0077D9</color>
+    <color name="theme_blue_light">#03A9F4</color>
+    <color name="theme_lime">#CDDC30</color>
+    <color name="theme_teal">#009688</color>
+    <color name="theme_brown">#795548</color>
+    <color name="theme_green">#4CAF50</color>
+    <color name="theme_green_light">#8BC34A</color>
+    <color name="theme_red">#FF5252</color>
 </resources>

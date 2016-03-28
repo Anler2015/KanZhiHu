@@ -22,6 +22,7 @@ import com.gejiahui.kanzhihu.base.BaseActivity;
 import com.gejiahui.kanzhihu.model.UserDetail;
 import com.gejiahui.kanzhihu.net.Request4UserDetail;
 import com.gejiahui.kanzhihu.net.RequestManager;
+import com.gejiahui.kanzhihu.utils.ThemeUtils;
 import com.orhanobut.logger.Logger;
 import com.victor.loading.rotate.RotateLoading;
 
@@ -73,6 +74,7 @@ public class AnswerActivity extends BaseActivity {
         setContentView(R.layout.activity_answer_web);
         ButterKnife.bind(this);
         rotateLoading.start();
+        mToolbar.setBackgroundColor(ThemeUtils.getThemeColor());
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -238,6 +240,7 @@ public class AnswerActivity extends BaseActivity {
                 mUserDetail = response;
                 userName.setText(response.getName());
                 userSignature.setText(response.getSignature());
+                Logger.d(response.getAvatar());
                 avatar.setImageURI(Uri.parse(response.getAvatar()));
                 voteNumber.setText(getIntent().getStringExtra("vote"));
             }

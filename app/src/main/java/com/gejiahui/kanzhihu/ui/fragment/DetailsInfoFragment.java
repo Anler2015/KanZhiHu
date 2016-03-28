@@ -35,12 +35,11 @@ public class DetailsInfoFragment extends BaseFragment {
     }
 
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_detail_info,container,false);
-        ButterKnife.bind(this,view);
+        View view = inflater.inflate(R.layout.fragment_detail_info, container, false);
+        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -62,14 +61,13 @@ public class DetailsInfoFragment extends BaseFragment {
         super.onStop();
     }
 
-    @Subscribe(sticky = true,threadMode = ThreadMode.MAIN) //在ui线程执行
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN) //在ui线程执行
     public void onUserDetailEvent(UserDetail userInfo) {
         thumb.setText(userInfo.getDetail().getString("agree"));
         thanks.setText(userInfo.getDetail().getString("thanks"));
         fav.setText(userInfo.getDetail().getString("fav"));
         share.setText(userInfo.getDetail().getString("count2000"));
     }
-
 
 
 }

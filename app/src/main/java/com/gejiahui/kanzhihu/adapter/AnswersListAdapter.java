@@ -13,9 +13,9 @@ import android.widget.TextView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.gejiahui.kanzhihu.callBack.LoadResultCallBack;
 import com.gejiahui.kanzhihu.R;
 import com.gejiahui.kanzhihu.base.EasyRecyclerViewAdapter;
+import com.gejiahui.kanzhihu.callBack.LoadResultCallBack;
 import com.gejiahui.kanzhihu.model.Answer;
 import com.gejiahui.kanzhihu.model.Constants;
 import com.gejiahui.kanzhihu.net.ParseError4String;
@@ -40,45 +40,45 @@ public class AnswersListAdapter extends EasyRecyclerViewAdapter<Answer> {
     private Activity mActivity;
     private Request4Answers request4Answers;
     private LoadResultCallBack mLoadResultCallBack;
-    public AnswersListAdapter(Activity activity,LoadResultCallBack loadResultCallBack) {
+
+    public AnswersListAdapter(Activity activity, LoadResultCallBack loadResultCallBack) {
         mActivity = activity;
         mLoadResultCallBack = loadResultCallBack;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreate(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_item, parent, false);
         return new AnswerViewHolder(view);
     }
 
     @Override
-    public void onBind(RecyclerView.ViewHolder viewHolder, int RealPosition, final Answer data) {
-        ((AnswerViewHolder)viewHolder).title.setText(data.getTitle());
-        ((AnswerViewHolder)viewHolder).body.setText(data.getSummary());
-        ((AnswerViewHolder)viewHolder).vote.setText(data.getVote());
-        ((AnswerViewHolder)viewHolder).avatar.setImageURI(Uri.parse(data.getAvatarUrl()));
-        ((AnswerViewHolder)viewHolder).answerCard.setOnClickListener(new View.OnClickListener() {
+    public void onBind(final RecyclerView.ViewHolder viewHolder, int RealPosition, final Answer data) {
+        ((AnswerViewHolder) viewHolder).title.setText(data.getTitle());
+        ((AnswerViewHolder) viewHolder).body.setText(data.getSummary());
+        ((AnswerViewHolder) viewHolder).vote.setText(data.getVote());
+        ((AnswerViewHolder) viewHolder).avatar.setImageURI(Uri.parse(data.getAvatarUrl()));
+        ((AnswerViewHolder) viewHolder).answerCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mActivity,AnswerActivity.class);
-                intent.putExtra("answerUrl",data.getAnswerUrl());
-                intent.putExtra("questionUrl",data.getQuestionUrl());
-                intent.putExtra("userUrl",data.getUserUrl());
-                intent.putExtra("title",data.getTitle());
-                intent.putExtra("vote",data.getVote());
+                Intent intent = new Intent(mActivity, AnswerActivity.class);
+                intent.putExtra("answerUrl", data.getAnswerUrl());
+                intent.putExtra("questionUrl", data.getQuestionUrl());
+                intent.putExtra("userUrl", data.getUserUrl());
+                intent.putExtra("title", data.getTitle());
+                intent.putExtra("vote", data.getVote());
                 mActivity.startActivity(intent);
-
             }
         });
     }
 
-    class AnswerViewHolder extends EasyRecyclerViewAdapter.EasyViewHolder{
+    class AnswerViewHolder extends EasyRecyclerViewAdapter.EasyViewHolder {
         @Bind(R.id.title)
-        TextView  title;
+        TextView title;
         @Bind(R.id.body)
-        TextView  body;
+        TextView body;
         @Bind(R.id.vote)
-        TextView  vote;
+        TextView vote;
         @Bind(R.id.avatar)
         SimpleDraweeView avatar;
         @Bind(R.id.answer_card)
@@ -92,21 +92,19 @@ public class AnswersListAdapter extends EasyRecyclerViewAdapter<Answer> {
     }
 
 
-
-    public void loadDatas(String time,int type){
-        request4Answers = new Request4Answers(getContentURL(time,type),
+    public void loadDatas(String time, int type) {
+        request4Answers = new Request4Answers(getContentURL(time, type),
                 new Response.Listener<ArrayList<Answer>>() {
                     @Override
                     public void onResponse(ArrayList<Answer> response) {
                         mLoadResultCallBack.onSuccess(response);
                     }
-                }, new Response.ErrorListener(){
+                }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if(error instanceof ParseError4String){
-                    mLoadResultCallBack.onFail(((ParseError4String)error).getErrorReason());
-                }
-                else{
+                if (error instanceof ParseError4String) {
+                    mLoadResultCallBack.onFail(((ParseError4String) error).getErrorReason());
+                } else {
                     mLoadResultCallBack.onFail("on fail");
                 }
 
@@ -116,22 +114,22 @@ public class AnswersListAdapter extends EasyRecyclerViewAdapter<Answer> {
     }
 
 
-    private  String getContentURL(String time,int type){
-        switch (type){
+    private String getContentURL(String time, int type) {
+        switch (type) {
             case Constants.YESTERDAY_ANSWERS:
-                return GET_ANSWER_CONTENT_URL+time+YESTERDAY;
+                return GET_ANSWER_CONTENT_URL + time + YESTERDAY;
 
             case Constants.RECENT_ANSWERS:
-                Logger.d(GET_ANSWER_CONTENT_URL+time+RECENT);
-                return GET_ANSWER_CONTENT_URL+time+RECENT;
+                Logger.d(GET_ANSWER_CONTENT_URL + time + RECENT);
+                return GET_ANSWER_CONTENT_URL + time + RECENT;
 
             case Constants.ARCHIVE_ANSWERS:
-                Logger.d(GET_ANSWER_CONTENT_URL+time+ARCHIVE);
-                return GET_ANSWER_CONTENT_URL+time+ARCHIVE;
+                Logger.d(GET_ANSWER_CONTENT_URL + time + ARCHIVE);
+                return GET_ANSWER_CONTENT_URL + time + ARCHIVE;
 
             default:
-                return GET_ANSWER_CONTENT_URL+time+YESTERDAY;
-}
+                return GET_ANSWER_CONTENT_URL + time + YESTERDAY;
+        }
 
     }
 }
