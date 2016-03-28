@@ -21,6 +21,7 @@
             android:id="@+id/today_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:layout_below="@id/img"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"

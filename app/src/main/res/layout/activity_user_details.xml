@@ -8,11 +8,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_layout"
         android:layout_width="match_parent"
         android:layout_height="220dp"
         android:background="@color/colorPrimary">
 
         <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collasping_layout"
             android:layout_width="match_parent"
             android:layout_height="180dp"
             app:contentScrim="@color/colorPrimary"
@@ -43,7 +45,7 @@
             android:layout_gravity="bottom"
             app:tabIndicatorColor="@color/white"
             app:tabSelectedTextColor="@color/white"
-            app:tabTextColor="@android:color/holo_blue_bright" />
+            app:tabTextColor="@android:color/background_dark" />
 
     </android.support.design.widget.AppBarLayout>
 

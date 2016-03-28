@@ -24,6 +24,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 android:elevation="8dp"
+                android:fitsSystemWindows="true"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
                 android:theme="@style/AppTheme.AppBarOverlay"/>
 
