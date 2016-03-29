@@ -54,7 +54,6 @@ public class MenuFragment extends BaseFragment {
     private MainActivity mMainActivity;
     private int selectedItem = 0;
     private MenuAdapter adapter;
-    private static int seltectedTheme = 0;
     Prism prism;
     private ThemeColorAdapter themeColorAdapter = new ThemeColorAdapter();
 
@@ -116,12 +115,10 @@ public class MenuFragment extends BaseFragment {
         themeColorList.add(new ThemeColor(R.color.theme_green_light));
         themeColorList.add(new ThemeColor(R.color.theme_brown));
         themeColorList.add(new ThemeColor(R.color.theme_red));
-        themeColorList.get(seltectedTheme).setChosen(true);
         themeColorAdapter.setDatas(themeColorList);
         themeColorAdapter.setOnItemClickListener(new EasyRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(View view, int position, Object data) {
-                seltectedTheme = position;
                 for (ThemeColor themeColor : themeColorList) {
                     themeColor.setChosen(false);
                 }
@@ -138,6 +135,7 @@ public class MenuFragment extends BaseFragment {
             public void onClick(View v) {
                 prism = Prism.Builder.newInstance()
                         .background(mMainActivity.toolbar)
+                        .background(mMainActivity.getWindow())
                         .background(header)
                         .build();
                 View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_theme_color, null, false);

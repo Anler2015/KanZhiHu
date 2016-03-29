@@ -52,6 +52,7 @@ public class UserDetailsActivity extends BaseActivity {
     TextView name;
     @Bind(R.id.ans_avatar)
     SimpleDraweeView avatar;
+
     List<String> tabList = new ArrayList<>();
 
     @Override
@@ -64,8 +65,6 @@ public class UserDetailsActivity extends BaseActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         initTab();
         setListener();
-
-
     }
 
     private void setThemeColor() {
@@ -74,6 +73,8 @@ public class UserDetailsActivity extends BaseActivity {
         appBarLayout.setBackgroundColor(themeColor);
         collapsingToolbarLayout.setContentScrimColor(themeColor);
         tabLayout.setBackgroundColor(themeColor);
+
+
     }
 
     @Override

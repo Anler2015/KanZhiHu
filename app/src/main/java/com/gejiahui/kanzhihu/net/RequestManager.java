@@ -17,9 +17,16 @@ public class RequestManager {
     private static RequestQueue mRequestQueue = Volley.newRequestQueue(MyApplication.getContext());
 
 
-    public static void addQueue(Request<?> request) {
+    public static void addQueue(Request<?> request,Object tag) {
+        if (tag != null) {
+            request.setTag(tag);
+        }
         request.setRetryPolicy(new DefaultRetryPolicy(OUT_TIME, TIMES_OF_RETRY, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mRequestQueue.add(request);
+    }
+
+    public static void cancelAll(Object tag) {
+        mRequestQueue.cancelAll(tag);
     }
 
 }

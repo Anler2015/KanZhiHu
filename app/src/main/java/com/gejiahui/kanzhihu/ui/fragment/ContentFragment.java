@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.gejiahui.kanzhihu.callback.LoadResultCallBack;
+import com.gejiahui.kanzhihu.callBack.LoadResultCallBack;
 import com.gejiahui.kanzhihu.R;
 import com.gejiahui.kanzhihu.adapter.AnswersListAdapter;
 import com.gejiahui.kanzhihu.base.BaseFragment;

@@ -33,6 +33,7 @@ public class MainActivity extends BaseActivity {
     ActionBarDrawerToggle mDrawerToggle;
     private MenuFragment mMenuFragment;
     private long selectedTime;
+    public DatePickerDialog dialog ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,7 @@ public class MainActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.app_name, R.string.app_name);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
         toolbar.setTitle(getResources().getString(R.string.yesterday));
         replaceFragment(R.id.frame_content, new ContentFragment());
         mMenuFragment = new MenuFragment();
@@ -98,7 +99,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void showDatePickerDialog() {
-        final DatePickerDialog dialog = new DatePickerDialog(MainActivity.this);
+        dialog = new DatePickerDialog(MainActivity.this);
         long maxTime = System.currentTimeMillis();
         Calendar cal = dialog.getCalendar();
         cal.setTimeInMillis(maxTime);

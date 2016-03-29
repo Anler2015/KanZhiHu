@@ -21,7 +21,6 @@ import com.gejiahui.kanzhihu.R;
 import com.gejiahui.kanzhihu.base.BaseActivity;
 import com.gejiahui.kanzhihu.model.UserDetail;
 import com.gejiahui.kanzhihu.net.Request4UserDetail;
-import com.gejiahui.kanzhihu.net.RequestManager;
 import com.gejiahui.kanzhihu.utils.ThemeUtils;
 import com.orhanobut.logger.Logger;
 import com.victor.loading.rotate.RotateLoading;
@@ -250,7 +249,7 @@ public class AnswerActivity extends BaseActivity {
 
             }
         });
-        RequestManager.addQueue(request4UserDetail);
+        executeRequest(request4UserDetail);
     }
 
     class WebLoadingThread extends AsyncTask<String, String, String> {

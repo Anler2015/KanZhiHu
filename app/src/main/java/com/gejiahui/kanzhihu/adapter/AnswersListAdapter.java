@@ -15,13 +15,14 @@ import com.android.volley.VolleyError;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.gejiahui.kanzhihu.R;
 import com.gejiahui.kanzhihu.base.EasyRecyclerViewAdapter;
-import com.gejiahui.kanzhihu.callback.LoadResultCallBack;
+import com.gejiahui.kanzhihu.callBack.LoadResultCallBack;
 import com.gejiahui.kanzhihu.model.Answer;
 import com.gejiahui.kanzhihu.model.Constants;
 import com.gejiahui.kanzhihu.net.ParseError4String;
 import com.gejiahui.kanzhihu.net.Request4Answers;
 import com.gejiahui.kanzhihu.net.RequestManager;
 import com.gejiahui.kanzhihu.ui.AnswerActivity;
+import com.gejiahui.kanzhihu.ui.MainActivity;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
@@ -110,7 +111,7 @@ public class AnswersListAdapter extends EasyRecyclerViewAdapter<Answer> {
 
             }
         });
-        RequestManager.addQueue(request4Answers);
+        RequestManager.addQueue(request4Answers, MainActivity.class);
     }
 
 
