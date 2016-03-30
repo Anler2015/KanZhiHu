@@ -23,10 +23,15 @@ public class RequestManager {
         }
         request.setRetryPolicy(new DefaultRetryPolicy(OUT_TIME, TIMES_OF_RETRY, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mRequestQueue.add(request);
+
     }
 
     public static void cancelAll(Object tag) {
         mRequestQueue.cancelAll(tag);
+    }
+
+    public static void clearCache(){
+         mRequestQueue.getCache().clear();
     }
 
 }

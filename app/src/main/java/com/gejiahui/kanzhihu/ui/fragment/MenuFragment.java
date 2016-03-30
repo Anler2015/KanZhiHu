@@ -2,6 +2,7 @@ package com.gejiahui.kanzhihu.ui.fragment;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -24,6 +25,7 @@ import com.gejiahui.kanzhihu.model.Constants;
 import com.gejiahui.kanzhihu.model.MenuItem;
 import com.gejiahui.kanzhihu.model.ThemeColor;
 import com.gejiahui.kanzhihu.ui.MainActivity;
+import com.gejiahui.kanzhihu.ui.SettingActivity;
 import com.gejiahui.kanzhihu.utils.ThemeUtils;
 import com.stylingandroid.prism.Prism;
 
@@ -101,7 +103,7 @@ public class MenuFragment extends BaseFragment {
     }
 
     private void initDatas() {
-        mDatas.add(new MenuItem("昨日精选", Constants.YESTERDAY_ANSWERS, R.drawable.ic_loyalty_black_24dp));
+        mDatas.add(new MenuItem("今日精选", Constants.YESTERDAY_ANSWERS, R.drawable.ic_loyalty_black_24dp));
         mDatas.add(new MenuItem("近日精选", Constants.RECENT_ANSWERS, R.drawable.ic_loyalty_black_24dp));
         mDatas.add(new MenuItem("历史精选", Constants.ARCHIVE_ANSWERS, R.drawable.ic_loyalty_black_24dp));
         mDatas.get(0).setSelected(true);
@@ -159,7 +161,8 @@ public class MenuFragment extends BaseFragment {
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getActivity(), SettingActivity.class);
+                startActivity(intent);
             }
         });
     }

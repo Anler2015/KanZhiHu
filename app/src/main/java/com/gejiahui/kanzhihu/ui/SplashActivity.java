@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
  */
 public class SplashActivity extends BaseActivity {
     @Bind(R.id.shimmer_view_container)
-    ShimmerFrameLayout  shimmer;
+    ShimmerFrameLayout shimmer;
     @Bind(R.id.background)
     RelativeLayout background;
 
@@ -31,16 +31,16 @@ public class SplashActivity extends BaseActivity {
         background.setBackgroundColor(ThemeUtils.getThemeColor());
         shimmer.startShimmerAnimation();
 
-        new Handler().postDelayed(new Runnable(){
+        new Handler().postDelayed(new Runnable() {
 
             @Override
             public void run() {
                 // TODO Auto-generated method stub
-                Intent mainIntent = new Intent(SplashActivity.this,MainActivity.class);
+                Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
                 SplashActivity.this.startActivity(mainIntent);//跳转到MainActivity
                 SplashActivity.this.finish();//结束SplashActivity
             }
-        }, 3000);//给postDelayed()方法传递延迟参数
+        }, 1600);//给postDelayed()方法传递延迟参数
     }
 
 

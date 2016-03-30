@@ -31,6 +31,13 @@ public class BaseActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.anim_right_in, R.anim.anim_right_out);
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        RequestManager.cancelAll(this);
+    }
+
     public void replaceFragment(int id, Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
