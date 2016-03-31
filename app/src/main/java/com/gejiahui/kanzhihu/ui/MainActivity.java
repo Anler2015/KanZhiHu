@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.gejiahui.kanzhihu.base.BaseActivity;
 import com.gejiahui.kanzhihu.ui.fragment.ContentFragment;
 import com.gejiahui.kanzhihu.ui.fragment.MenuFragment;
 import com.gejiahui.kanzhihu.utils.ThemeUtils;
+import com.gejiahui.kanzhihu.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 import com.rey.material.app.DatePickerDialog;
 
@@ -34,6 +36,7 @@ public class MainActivity extends BaseActivity {
     private MenuFragment mMenuFragment;
     private long selectedTime;
     public DatePickerDialog dialog ;
+    private long exitTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +131,23 @@ public class MainActivity extends BaseActivity {
                     }
                 })
                 .show();
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                ToastUtils.show("再按一次退出程序");
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+            }
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 
     protected void onPostCreate(Bundle savedInstanceState) {

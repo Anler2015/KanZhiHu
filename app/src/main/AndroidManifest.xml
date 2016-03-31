@@ -3,6 +3,7 @@
     package="com.gejiahui.kanzhihu">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".base.MyApplication"
         android:allowBackup="true"
@@ -39,6 +40,7 @@
         <activity
             android:name=".ui.SettingActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
     </application>
 
 </manifest>

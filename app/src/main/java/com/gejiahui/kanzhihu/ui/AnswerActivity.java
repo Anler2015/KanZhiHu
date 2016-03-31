@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -58,6 +59,8 @@ public class AnswerActivity extends BaseActivity {
     RotateLoading rotateLoading;
     @Bind(R.id.user_info)
     RelativeLayout user_info;
+    @Bind(R.id.swipe_refreshLayout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     private String answerURL;
     private String userURL;
@@ -91,7 +94,18 @@ public class AnswerActivity extends BaseActivity {
         getUserInfo();
         Logger.d("" + answerURL);
         Logger.d("" + userURL);
+        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new WebLoadingThread().execute();
+            }
+        });
         new WebLoadingThread().execute();
+
     }
 
 
@@ -264,6 +278,9 @@ public class AnswerActivity extends BaseActivity {
             super.onPostExecute(s);
             webView.loadDataWithBaseURL("", s, "text/html", "utf-8", null);
             rotateLoading.stop();
+            if (mSwipeRefreshLayout.isRefreshing()) {
+                mSwipeRefreshLayout.setRefreshing(false);  //刷新失败，停止刷新动画
+            }
         }
     }
 }

@@ -19,143 +19,149 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
-            android:fitsSystemWindows="true"
             android:elevation="8dp"
+            android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical"
+        android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <RelativeLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/title_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="4dp"
-                android:clickable="true"
-                android:elevation="5dp"
-                android:foreground="?android:attr/selectableItemBackground"
-                card:cardBackgroundColor="@color/white"
-                card:cardCornerRadius="3dp"
-                card:cardPreventCornerOverlap="true"
-                card:cardUseCompatPadding="true"
-                card:contentPadding="16dp">
-
-                <TextView
-                    android:id="@+id/answer_activity_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-            </android.support.v7.widget.CardView>
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical">
 
             <RelativeLayout
-                android:id="@+id/user_info"
                 android:layout_width="match_parent"
-                android:layout_height="72dp"
-                android:layout_below="@id/title_layout"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:layout_marginTop="4dp"
-                android:background="@color/white"
-                android:clickable="true"
-                android:elevation="5dp"
-                android:foreground="?android:attr/selectableItemBackground">
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/title_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="4dp"
+                    android:clickable="true"
+                    android:elevation="5dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    card:cardBackgroundColor="@color/white"
+                    card:cardCornerRadius="3dp"
+                    card:cardPreventCornerOverlap="true"
+                    card:cardUseCompatPadding="true"
+                    card:contentPadding="16dp">
+
+                    <TextView
+                        android:id="@+id/answer_activity_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </android.support.v7.widget.CardView>
+
+                <RelativeLayout
+                    android:id="@+id/user_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:layout_below="@id/title_layout"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@color/white"
+                    android:clickable="true"
+                    android:elevation="5dp"
+                    android:foreground="?android:attr/selectableItemBackground">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <com.facebook.drawee.view.SimpleDraweeView
+                            android:id="@+id/ans_avatar"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="16dp"
+                            fresco:placeholderImage="@drawable/placeholder"
+                            fresco:roundAsCircle="true" />
+
+                        <TextView
+                            android:id="@+id/user_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_toRightOf="@id/ans_avatar"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <android.support.v7.widget.CardView
+                            android:id="@+id/vote_card"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="8dp"
+                            android:clickable="true"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            card:cardBackgroundColor="@color/white"
+                            card:cardCornerRadius="3dp"
+                            card:cardElevation="3dp"
+                            card:cardPreventCornerOverlap="true"
+                            card:cardUseCompatPadding="true">
+
+                            <TextView
+                                android:id="@+id/vote"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@color/blue_light"
+                                android:gravity="center" />
+
+                        </android.support.v7.widget.CardView>
+
+                        <TextView
+                            android:id="@+id/user_signature"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/user_name"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginTop="4dp"
+                            android:layout_toLeftOf="@id/vote_card"
+                            android:layout_toRightOf="@id/ans_avatar"
+                            android:singleLine="true"
+                            android:textSize="12sp" />
+
+                    </RelativeLayout>
+                </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <com.facebook.drawee.view.SimpleDraweeView
-                        android:id="@+id/ans_avatar"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="16dp"
-                        fresco:placeholderImage="@drawable/placeholder"
-                        fresco:roundAsCircle="true" />
-
-                    <TextView
-                        android:id="@+id/user_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_toRightOf="@id/ans_avatar"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <android.support.v7.widget.CardView
-                        android:id="@+id/vote_card"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="8dp"
-                        android:clickable="true"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        card:cardBackgroundColor="@color/white"
-                        card:cardCornerRadius="3dp"
-                        card:cardElevation="3dp"
-                        card:cardPreventCornerOverlap="true"
-                        card:cardUseCompatPadding="true">
-
-                        <TextView
-                            android:id="@+id/vote"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/blue_light"
-                            android:gravity="center" />
-
-                    </android.support.v7.widget.CardView>
-
-                    <TextView
-                        android:id="@+id/user_signature"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/user_name"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_toLeftOf="@id/vote_card"
-                        android:layout_toRightOf="@id/ans_avatar"
-                        android:singleLine="true"
-                        android:textSize="12sp" />
-
-                </RelativeLayout>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/user_info"
-                android:layout_marginTop="2dp"
-                android:elevation="5dp">
-
-                <include layout="@layout/rotate_loading"></include>
-
-                <WebView
-                    android:id="@+id/web_view"
-                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
-                    android:layout_marginTop="0dp"></WebView>
-            </RelativeLayout>
+                    android:layout_below="@id/user_info"
+                    android:layout_marginTop="2dp"
+                    android:elevation="5dp">
 
-        </RelativeLayout>
-    </android.support.v4.widget.NestedScrollView>
+                    <include layout="@layout/rotate_loading"></include>
+
+                    <WebView
+                        android:id="@+id/web_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="12dp"
+                        android:layout_marginTop="0dp"></WebView>
+                </RelativeLayout>
+
+            </RelativeLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </android.support.design.widget.CoordinatorLayout>
