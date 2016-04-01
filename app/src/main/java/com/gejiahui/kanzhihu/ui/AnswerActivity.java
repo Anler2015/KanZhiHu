@@ -153,10 +153,10 @@ public class AnswerActivity extends BaseActivity {
         sb.append("<html dir=\"ltr\" lang=\"zh\">");
         sb.append("<head><style>img{ max-width: 100%!important;height: auto!important; display: block; margin: 10px 0;}</style>");
         sb.append("<meta name=\"viewport\" content=\"width=100%; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;\" />");
-        sb.append("<link rel=\"stylesheet\" href='file:///android_assets/style.css' type=\"text/css\" media=\"screen\" />");
+        sb.append("<link rel=\"stylesheet\" href='file:///android_asset/style.css' type=\"text/css\" media=\"screen\" />");
         sb.append("</head>");
         sb.append("<body style=\"padding:0px 8px 8px 8px; word-wrap:break-word;\">");
-        sb.append("<div class=\"content\">");
+        sb.append("<div class=\"body\">");
         sb.append(body);
         sb.append("</div>");
         sb.append("</body>");
