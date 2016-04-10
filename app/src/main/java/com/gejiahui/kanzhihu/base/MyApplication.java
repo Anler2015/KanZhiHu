@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.orhanobut.logger.LogLevel;
+import com.orhanobut.logger.Logger;
 
 
 /**
@@ -17,6 +19,7 @@ public class MyApplication extends Application {
         super.onCreate();
         mContext = this;
         Fresco.initialize(this);
+        Logger.init().hideThreadInfo().setMethodCount(1).setLogLevel(LogLevel.NONE);
     }
 
     public static Context getContext() {
