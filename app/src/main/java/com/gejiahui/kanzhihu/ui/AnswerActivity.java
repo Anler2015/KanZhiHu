@@ -178,11 +178,11 @@ public class AnswerActivity extends BaseActivity {
 
     private String getAnswerBody() {
         if (doc != null) {
-            Elements content = doc.getElementsByClass("zm-editable-content");
+            Elements content = doc.getElementsByClass("AnswerItem-content");
             if (content != null) {
                 for (int i = 0; i < content.size(); i++) {
                     Element element = content.get(i);
-                    Elements ans = element.getElementsByClass("clearfix");
+                    Elements ans = element.getElementsByClass("RichText");
                     if (ans.size() != 0) {
                         return addPrefixOfUrl(imgReplace(ans.first().toString())); //替换img
                     }

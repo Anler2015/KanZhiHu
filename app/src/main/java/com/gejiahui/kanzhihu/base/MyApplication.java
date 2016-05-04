@@ -19,7 +19,7 @@ public class MyApplication extends Application {
         super.onCreate();
         mContext = this;
         Fresco.initialize(this);
-        Logger.init().hideThreadInfo().setMethodCount(1).setLogLevel(LogLevel.NONE);
+       // Logger.init().hideThreadInfo().setMethodCount(1).setLogLevel(LogLevel.NONE);
     }
 
     public static Context getContext() {
