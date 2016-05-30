@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -61,6 +62,8 @@ public class AnswerActivity extends BaseActivity {
     RelativeLayout user_info;
     @Bind(R.id.swipe_refreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
+    @Bind(R.id.app_layout)
+    AppBarLayout appBarLayout;
 
     private String answerURL;
     private String userURL;
@@ -68,7 +71,7 @@ public class AnswerActivity extends BaseActivity {
     private Request4UserDetail request4UserDetail;
     private UserDetail mUserDetail;
     private Document doc = null;
-    private Document questuinDoc = null;
+    private Document questionDoc = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -111,7 +114,7 @@ public class AnswerActivity extends BaseActivity {
 
     private void webViewInit() {
 
-        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setJavaScriptEnabled(false);
         webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 
     }
@@ -144,7 +147,20 @@ public class AnswerActivity extends BaseActivity {
             }
         });
 
-
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                //  Logger.d("verticalOffset"+verticalOffset);
+                if(verticalOffset < -80){
+                    getSupportActionBar().setDisplayShowTitleEnabled(false);
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                }
+                else{
+                    getSupportActionBar().setDisplayShowTitleEnabled(true);
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                }
+            }
+        });
     }
 
     private String getHtml(String body) {
@@ -167,7 +183,7 @@ public class AnswerActivity extends BaseActivity {
     private void getDocument(String url) {
         try {
             doc = Jsoup.connect(url).get();
-            questuinDoc = Jsoup.connect(questionURL).get();
+            questionDoc = Jsoup.connect(questionURL).get();
             Logger.d(doc.toString());
             getQuestionDetailBody();
 
@@ -202,11 +218,18 @@ public class AnswerActivity extends BaseActivity {
 
 
     private String getQuestionDetailBody() {
-        if (questuinDoc != null) {
-            Element content = questuinDoc.getElementById("zh-question-detail");
+        if (questionDoc != null) {
+            Elements content = questionDoc.getElementsByClass("QuestionHeader-description");
             if (content != null) {
-                Logger.d(content.toString());
-                return addPrefixOfUrl(imgReplace(content.toString()));
+//                Logger.d(content.toString());
+//                return addPrefixOfUrl(imgReplace(content.toString()));
+                for (int i = 0; i < content.size(); i++) {
+                    Element element = content.get(i);
+                    Elements ans = element.getElementsByClass("RichText");
+                    if (ans.size() != 0) {
+                        return addPrefixOfUrl(imgReplace(ans.first().toString())); //替换img
+                    }
+                }
             }
         }
         return "";
