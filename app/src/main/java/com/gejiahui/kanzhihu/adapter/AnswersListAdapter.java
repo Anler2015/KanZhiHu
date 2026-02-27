@@ -19,6 +19,7 @@ import com.gejiahui.kanzhihu.callback.LoadResultCallBack;
 import com.gejiahui.kanzhihu.model.Answer;
 import com.gejiahui.kanzhihu.model.Constants;
 import com.gejiahui.kanzhihu.net.ParseError4String;
+import com.gejiahui.kanzhihu.net.OfflineContentLoader;
 import com.gejiahui.kanzhihu.net.Request4Answers;
 import com.gejiahui.kanzhihu.net.RequestManager;
 import com.gejiahui.kanzhihu.ui.AnswerActivity;
@@ -34,7 +35,7 @@ import butterknife.ButterKnife;
  * Created by gejiahui on 2016/3/12.
  */
 public class AnswersListAdapter extends EasyRecyclerViewAdapter<Answer> {
-    private static String GET_ANSWER_CONTENT_URL = "http://api.kanzhihu.com/getpostanswers/";
+    private static String GET_ANSWER_CONTENT_URL = "https://api.kanzhihu.com/getpostanswers/";
     private static String YESTERDAY = "/yesterday";
     private static String RECENT = "/recent";
     private static String ARCHIVE = "/archive";
@@ -103,6 +104,11 @@ public class AnswersListAdapter extends EasyRecyclerViewAdapter<Answer> {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                ArrayList<Answer> offlineAnswers = OfflineContentLoader.load(mActivity);
+                if (!offlineAnswers.isEmpty()) {
+                    mLoadResultCallBack.onSuccess(offlineAnswers);
+                    return;
+                }
                 if (error instanceof ParseError4String) {
                     mLoadResultCallBack.onFail(((ParseError4String) error).getErrorReason());
                 } else {
