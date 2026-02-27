@@ -1,0 +1,39 @@
+{
+  "error": "",
+  "count": 3,
+  "answers": [
+    {
+      "title": "2026 Revival: Why this app now ships with offline fallback",
+      "time": "20260101",
+      "summary": "The historical KanZhiHu API is no longer reliable. This build includes bundled content so the app still opens and demonstrates core flows on modern Android.",
+      "questionid": "00000001",
+      "answerid": "00000001",
+      "authorname": "KanZhiHu Team",
+      "authorhash": "kanzhihu-team",
+      "avatar": "https://picx.zhimg.com/v2-2c5f0f52fd2f802f2d0f1ac084f783e7_l.jpg",
+      "vote": "2026"
+    },
+    {
+      "title": "Modernization checklist for legacy Android apps",
+      "time": "20260101",
+      "summary": "Raise target SDK, migrate network endpoints to HTTPS, replace brittle globals, and add tests around parser/repository behavior.",
+      "questionid": "00000002",
+      "answerid": "00000002",
+      "authorname": "Legacy Rescue Bot",
+      "authorhash": "legacy-rescue-bot",
+      "avatar": "https://picx.zhimg.com/v2-2c5f0f52fd2f802f2d0f1ac084f783e7_l.jpg",
+      "vote": "1024"
+    },
+    {
+      "title": "How to continue from here",
+      "time": "20260101",
+      "summary": "Wire a maintained backend to replace bundled data, then incrementally move to AndroidX + modern architecture components.",
+      "questionid": "00000003",
+      "answerid": "00000003",
+      "authorname": "Open Source Maintainer",
+      "authorhash": "oss-maintainer",
+      "avatar": "https://picx.zhimg.com/v2-2c5f0f52fd2f802f2d0f1ac084f783e7_l.jpg",
+      "vote": "888"
+    }
+  ]
+}
